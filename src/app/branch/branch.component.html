@@ -1,0 +1,18 @@
+<div class="container mt-4">
+    <h2>Registrar Sucursal</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre de la Sucursal:</label>
+        <input type="text" id="name" name="name" [(ngModel)]="branchData.name" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="city" class="form-label">Ciudad:</label>
+        <input type="text" id="city" name="city" [(ngModel)]="branchData.location.city" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="country" class="form-label">País:</label>
+        <input type="text" id="country" name="country" [(ngModel)]="branchData.location.country" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Registrar Sucursal</button>
+    </form>
+  </div>
