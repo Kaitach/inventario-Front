@@ -1,27 +1,33 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BranchComponent } from './branch/branch.component';
-import { ProductComponent } from './product/product.component';
-import { UserComponent } from './user/user.component';
-import { FormsModule } from '@angular/forms';
+import { DataModule } from './data/data.module';
+import { BranchComponent } from './presentation/components/branch/branch.component';
+import { ProductComponent } from './presentation/components/product/product.component';
+import { UserComponent } from './presentation/components/user/user.component';
+import { AuthComponent } from './presentation/components/auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BranchComponent,
     ProductComponent,
-    UserComponent
+    UserComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule],
+    FormsModule,
+    DataModule,
+    ReactiveFormsModule
+  ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
