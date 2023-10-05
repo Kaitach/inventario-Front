@@ -38,11 +38,10 @@ export class ProductComponent implements OnInit {
       description: ['', Validators.required],
       price: ['', Validators.required],
       category: ['', Validators.required],
-      branchId: ['', Validators.required],
+      branchId: [''],
     });
   }
   selectedBranchId!: string;
-
   productForm: FormGroup;
   registerForm: FormGroup;
   factory = producthUseCaseProviders;
@@ -52,74 +51,33 @@ export class ProductComponent implements OnInit {
   endpoint = '';
   productNames: string[] = [];
   branchsNames: string[] = [];
-  branchsList: IBranchModel[] = [];
-
+  branchId!: string;
   ngOnInit(): void {
-    // this.loadProducts();
-    this.loadBranch();
+    this.selectedBranchId = this.authService.getSelectedBranchId();
+    this.products = this.authService.getSelectedBranchProducts();
     this.socketService.listenToEvent('productRegister').subscribe((data) => {
-      console.log('Evento recibido:', data);
-      this.loadBranch();
+      console.log('Evento recibido:', JSON.parse(data));
+      const newProduct = JSON.parse(data) as IproductEntity;
+      const existingProductIndex = this.products.findIndex(
+        (product) => product.productId === newProduct.productId
+      );
+    
+      if (existingProductIndex !== -1) {
+        // Si ya existe un producto con el mismo ID, actualiza su valor de quantity
+        this.products[existingProductIndex].quantity = newProduct.quantity;
+      } else if (newProduct.branchId === this.selectedBranchId) {
+        // Si no existe un producto con el mismo ID y pertenece a la sucursal seleccionada, agrégalo
+        this.products.push(newProduct);
+      }
     });
-  }
-
-  onBranchChange(): void {
-    const selectedBranch = this.branchsList.find(
-      (branch) => branch.branchId === this.selectedBranchId
-    );
-    if (selectedBranch) {
-      this.products = selectedBranch.products;
-      const productBranchIdControl = this.productForm.get('branchId');
-      const registerBranchIdControl = this.registerForm.get('branchId');
-
-      if (productBranchIdControl) {
-        productBranchIdControl.setValue(selectedBranch.branchId);
-      }
-
-      if (registerBranchIdControl) {
-        registerBranchIdControl.setValue(selectedBranch.branchId);
-      }
-      console.log(this.products);
-      console.log('yo me tengo que mostrar ');
-    }
   }
 
   onSubmit(): void {
     this.sendToEndpoint(this.endpoint);
     this.Modal = !this.Modal;
     this.registerForm.reset();
-
   }
 
-  loadProducts(): void {
-    this.factory.getAllProduct
-      .useFactory(this.productRepository)
-      .execute()
-      .subscribe(
-        (data) => {
-          this.products = data;
-          this.productNames = this.products.map((product) => product.name);
-        },
-        (error) => {
-          console.error('Error al obtener la lista de productos:', error);
-        }
-      );
-  }
-
-  loadBranch(): void {
-    this.factoryBranch.getallBranch
-      .useFactory(this.branchRepository)
-      .execute()
-      .subscribe(
-        (data) => {
-          this.branchsList = data;
-          this.onBranchChange();
-        },
-        (error) => {
-          console.error('Error al obtener la lista de productos:', error);
-        }
-      );
-  }
   get selectedRole(): string {
     return this.authService.getSelectedRole();
   }
@@ -127,12 +85,15 @@ export class ProductComponent implements OnInit {
   sendToEndpoint(data: string): void {
     if (this.registerForm.valid) {
       const registerFormData = this.registerForm.value as IProductRegisterModel;
+      registerFormData.branchId = this.selectedBranchId;
       this.factory.Createproduct.useFactory(this.productRepository)
         .execute(registerFormData)
         .subscribe();
     }
     if (this.productForm.valid) {
       const idAndQuantity = this.productForm.value as productInventoryModel;
+      idAndQuantity.branchId = this.selectedBranchId;
+
       this.factory.registerQuantity
         .useFactory(this.productRepository)
         .execute(idAndQuantity, data)

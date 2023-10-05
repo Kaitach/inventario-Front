@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 export class AuthService {
   private isLoggedIn: boolean = false;
   private selectedRole!: string;
-
+  selectedBranchId: string = '';
+  selectedBranchProducts: any[] = [];
   constructor(private router: Router) { }
 
   login(email: string, password: string): boolean {
@@ -44,5 +45,20 @@ export class AuthService {
 
   getIsLoggedIn(): boolean {
     return this.isLoggedIn;
+  }
+  setSelectedBranchId(branchId: string): void {
+    this.selectedBranchId = branchId;
+  }
+
+  getSelectedBranchId(): string {
+    return this.selectedBranchId;
+  }
+
+  setSelectedBranchProducts(products: any[]): void {
+    this.selectedBranchProducts = products;
+  }
+
+  getSelectedBranchProducts(): any[] {
+    return this.selectedBranchProducts;
   }
 }

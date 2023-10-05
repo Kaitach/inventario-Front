@@ -10,7 +10,7 @@ export class SocketService {
   socket: any;
 
   constructor() {
-    this.socket = io('http://localhost:81');
+    this.socket = io('ws://localhost:81');
   }
   listenToEvent(eventName: string): Observable<any> {
     return new Observable((observer) => {

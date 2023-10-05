@@ -4,19 +4,7 @@
   <button  type="button" class="btn btn-primary" (click)="toggleModal('seller-sale')">Enviar a Seller</button>
   <button  *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('purchase')">Agregar inventario</button>
   <button *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('register')">Registrar Producto</button>
-  <div class="mb-3">
-    <label for="branchId" class="form-label">Selecciona una Sucursal:</label>
-    <select
-      id="branchId"
-      name="branchId"
-      [(ngModel)]="selectedBranchId"
-      class="form-control"
-      (change)="onBranchChange()"
-    >
-      <option *ngFor="let branch of branchsList" [value]="branch.branchId">
-        {{ branch.name }}
-      </option>
-    </select>
+  
   </div>
 
   <div [class.d-none]="Modal" [class.d-block]="!Modal">
@@ -85,9 +73,6 @@
               </select> <div *ngIf="registerForm.get('category')?.hasError('required')" class="text-danger">
                 Categoría del producto es requerida.
               </div>
-            
-          
-    
             <div class="mb-3">
               <button type="submit" class="btn btn-primary">Enviar (Registro de Producto)</button>
               <button type="button" class="btn btn-secondary" (click)="Modal = true">Cancelar</button>
@@ -95,4 +80,3 @@
           </form>
         </div>
       </div>
-    </div>

@@ -1,3 +1,15 @@
+<label for="branchId" class="form-label">Selecciona una Sucursal:</label>
+        <select
+          id="branchId"
+          name="branchId"
+          [(ngModel)]="selectedBranchId"
+          class="form-control"
+          (change)="onBranchChange()"
+        >
+          <option *ngFor="let branch of branchsList" [value]="branch.branchId">
+            {{ branch.name }}
+          </option>
+        </select>
 <div class="container mt-4">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
