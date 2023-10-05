@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
-import { UseCase } from '../../base/use-case';
-import {  ProductRepository, productModel } from '../..';
+import { ProductRepository, productModel } from '../..';
 import { productInventoryModel } from '../../models/productInventory.model';
 
 

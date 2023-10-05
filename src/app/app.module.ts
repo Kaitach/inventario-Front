@@ -10,6 +10,7 @@ import { BranchComponent } from './presentation/components/branch/branch.compone
 import { ProductComponent } from './presentation/components/product/product.component';
 import { UserComponent } from './presentation/components/user/user.component';
 import { AuthComponent } from './presentation/components/auth/auth.component';
+import { SocketService } from './data/repository/webSoket/socketService';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { AuthComponent } from './presentation/components/auth/auth.component';
     DataModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

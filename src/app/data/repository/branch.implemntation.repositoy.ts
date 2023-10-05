@@ -19,7 +19,7 @@ export class BranchImplementationRepository extends BranchRepository {
   }
 
   getAllBranch():Observable<IBranchModel[]>{
-    return this.http.get<IBranchModel[]>('http://localhost:3000/api/v1/branch/');
+    return this.http.get<IBranchModel[]>('http://localhost:3002/api/v1/branch/');
 
   }
 }

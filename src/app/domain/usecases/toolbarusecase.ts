@@ -1,25 +1,25 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+// import { Injectable } from "@angular/core";
+// import { BehaviorSubject } from "rxjs";
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StateUseCase {
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class StateUseCase {
 
-  public currentStatus: boolean = false;
-  public currentStatusEmitter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.currentStatus);
+//   public currentStatus: boolean = false;
+//   public currentStatusEmitter: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.currentStatus);
 
 
-  defaultLogin() {
-    if(!localStorage.getItem('key')){
-      localStorage.setItem('key', 'false')
-    }
-  }
+//   defaultLogin() {
+//     if(!localStorage.getItem('key')){
+//       localStorage.setItem('key', 'false')
+//     }
+//   }
 
-  activeLogin(){
+//   activeLogin(){
     
-    localStorage.setItem('key', 'true');
-    this.currentStatus = !this.currentStatus;
-    this.currentStatusEmitter.next(this.currentStatus);
-  }
-}
+//     localStorage.setItem('key', 'true');
+//     this.currentStatus = !this.currentStatus;
+//     this.currentStatusEmitter.next(this.currentStatus);
+//   }
+// }

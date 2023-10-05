@@ -5,6 +5,7 @@ import { BranchUseCaseProviders } from 'src/app/data/factory/branchFactory';
 import { IuserRegister } from 'src/app/domain/models/userRegister';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/data/repository/auth/auth.service';
+import { SocketService } from 'src/app/data/repository/webSoket/socketService';
 
 @Component({
   selector: 'app-user',
@@ -13,7 +14,8 @@ import { AuthService } from 'src/app/data/repository/auth/auth.service';
 })
 export class UserComponent implements OnInit {
 
-  constructor( private readonly userRepository: UserRepository , private readonly branchRepository: BranchRepository,public  authService: AuthService , private formBuilder: FormBuilder) { }
+  constructor(    private socketService: SocketService,
+    private readonly userRepository: UserRepository , private readonly branchRepository: BranchRepository,public  authService: AuthService , private formBuilder: FormBuilder) { }
   
  
   factoryBranch = BranchUseCaseProviders
@@ -39,6 +41,12 @@ export class UserComponent implements OnInit {
       password: ['', Validators.required],
       branchId: ['', Validators.required],
       role: ['', Validators.required],
+    });
+
+    this.socketService.listenToEvent('branchRegister').subscribe((data) => {
+      console.log('Evento recibido:', data);
+
+      this.loadBranch();
     });
   }
 
