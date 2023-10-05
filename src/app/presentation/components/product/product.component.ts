@@ -1,18 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { BranchUseCaseProviders } from 'src/app/data/factory/branchFactory';
-import { producthUseCaseProviders } from 'src/app/data/factory/productFactory';
-import { IproductEntity } from 'src/app/data/repository';
-import { AuthService } from 'src/app/data/repository/auth/auth.service';
-import { SocketService } from 'src/app/data/repository/webSoket/socketService';
-import {
-  BranchRepository,
-  IBranchModel,
-  ProductRepository,
-  productModel,
-} from 'src/app/domain';
-import { productInventoryModel } from 'src/app/domain/models/productInventory.model';
-import { IProductRegisterModel } from 'src/app/domain/models/productRegisterModel';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IProductModel, IProductRegisterModel } from '@domain/models';
+import { BranchRepository, ProductRepository } from '@domain/repository';
+import { BranchUseCaseProviders, productUseCaseProviders } from 'data/factory';
+import { AuthService, IProductEntity, SocketService } from 'data/repository';
 
 @Component({
   selector: 'app-product',
@@ -21,7 +12,7 @@ import { IProductRegisterModel } from 'src/app/domain/models/productRegisterMode
 })
 export class ProductComponent implements OnInit {
   constructor(
-    private readonly productRepository: ProductRepository<productModel>,
+    private readonly productRepository: ProductRepository<IProductModel>,
     private readonly branchRepository: BranchRepository,
     private formBuilder: FormBuilder,
     private socketService: SocketService,
@@ -29,8 +20,7 @@ export class ProductComponent implements OnInit {
   ) {
     this.productForm = this.formBuilder.group({
       productId: [''],
-      quantity: [''],
-      branchId: [''],
+      quantity: 0,
     });
 
     this.registerForm = this.formBuilder.group({
@@ -44,24 +34,24 @@ export class ProductComponent implements OnInit {
   selectedBranchId!: string;
   productForm: FormGroup;
   registerForm: FormGroup;
-  factory = producthUseCaseProviders;
+  factory = productUseCaseProviders;
   factoryBranch = BranchUseCaseProviders;
   Modal = true;
-  products: IproductEntity[] = [];
+  products: IProductEntity[] = [];
   endpoint = '';
   productNames: string[] = [];
-  branchsNames: string[] = [];
+  branchesNames: string[] = [];
   branchId!: string;
   ngOnInit(): void {
     this.selectedBranchId = this.authService.getSelectedBranchId();
     this.products = this.authService.getSelectedBranchProducts();
     this.socketService.listenToEvent('productRegister').subscribe((data) => {
       console.log('Evento recibido:', JSON.parse(data));
-      const newProduct = JSON.parse(data) as IproductEntity;
+      const newProduct = JSON.parse(data) as IProductEntity;
       const existingProductIndex = this.products.findIndex(
         (product) => product.productId === newProduct.productId
       );
-    
+
       if (existingProductIndex !== -1) {
         // Si ya existe un producto con el mismo ID, actualiza su valor de quantity
         this.products[existingProductIndex].quantity = newProduct.quantity;
@@ -86,17 +76,20 @@ export class ProductComponent implements OnInit {
     if (this.registerForm.valid) {
       const registerFormData = this.registerForm.value as IProductRegisterModel;
       registerFormData.branchId = this.selectedBranchId;
-      this.factory.Createproduct.useFactory(this.productRepository)
+      this.factory.createProduct
+        .useFactory(this.productRepository)
         .execute(registerFormData)
         .subscribe();
     }
     if (this.productForm.valid) {
-      const idAndQuantity = this.productForm.value as productInventoryModel;
-      idAndQuantity.branchId = this.selectedBranchId;
+      const idAndQuantity = this.productForm.get<string>('productId')?.value;
+      this.selectedBranchId;
 
       this.factory.registerQuantity
         .useFactory(this.productRepository)
-        .execute(idAndQuantity, data)
+        .execute(idAndQuantity, {
+          quantity: Number(this.productForm.get('quantity')?.value),
+        })
         .subscribe();
     }
   }

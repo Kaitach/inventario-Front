@@ -1,12 +1,10 @@
-export interface IuserRegister {   
-    name:{
-    firstName: string,
-    lastName: string,
-
-  },
-    email: string,
-    password: string,
-    role: string,
-    branchId:string
-  }
-  
+export interface IUserRegister {
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  email: string;
+  password: string;
+  role: string;
+  branchId: string;
+}

@@ -1,16 +1,16 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import {
+  AuthComponent,
+  BranchComponent,
+  ProductComponent,
+  UserComponent,
+} from '@presentation/components';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DataModule } from './data/data.module';
-import { BranchComponent } from './presentation/components/branch/branch.component';
-import { ProductComponent } from './presentation/components/product/product.component';
-import { UserComponent } from './presentation/components/user/user.component';
-import { AuthComponent } from './presentation/components/auth/auth.component';
-import { SocketService } from './data/repository/webSoket/socketService';
+import { DataModule, SocketService } from './data';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { SocketService } from './data/repository/webSoket/socketService';
     BranchComponent,
     ProductComponent,
     UserComponent,
-    AuthComponent
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +26,7 @@ import { SocketService } from './data/repository/webSoket/socketService';
     AppRoutingModule,
     FormsModule,
     DataModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [SocketService],
   bootstrap: [AppComponent],

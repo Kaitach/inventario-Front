@@ -1,10 +1,10 @@
-import { productModel } from './product.model';
-import { UserModel } from './user.model';
+import { IProductModel } from './product.model';
+import { IUserModel } from './user.model';
 
 export interface IBranchModel {
   branchId: string;
   name: string;
   location: string;
-  products: productModel[];
-  users: UserModel[];
+  products: IProductModel[];
+  users: IUserModel[];
 }

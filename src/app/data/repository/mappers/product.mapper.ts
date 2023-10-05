@@ -1,11 +1,12 @@
-import { IproductEntity } from '..';
-import { Mapper, productModel } from '../../../domain';
+import { Mapper } from '@domain/base';
+import { IProductModel } from '@domain/models';
+import { IProductEntity } from '..';
 
 export class ProductImplementationRepositoryMapper extends Mapper<
-IproductEntity,
-  productModel
+  IProductEntity,
+  IProductModel
 > {
-  mapFrom(param: IproductEntity): productModel {
+  mapFrom(param: IProductEntity): IProductModel {
     return {
       branchId: param.branchId,
       category: param.category,
@@ -13,10 +14,10 @@ IproductEntity,
       name: param.name,
       price: param.price,
       productId: param.productId,
-      quantity: param.quantity
+      quantity: param.quantity,
     };
   }
-  mapTo(param: productModel): IproductEntity {
+  mapTo(param: IProductModel): IProductEntity {
     return {
       branchId: param.branchId,
       category: param.category,
@@ -24,7 +25,7 @@ IproductEntity,
       name: param.name,
       price: param.price,
       productId: param.productId,
-      quantity: param.quantity
+      quantity: param.quantity,
     };
   }
 }

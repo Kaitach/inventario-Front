@@ -1,34 +1,34 @@
-import { registerReSellerUseCase } from './../../domain/usecases/product/registerSellerSaleUseCase';
-import { RegisterCustomerSaleUseCase } from './../../domain/usecases/product/registerSaleUseCase';
-import { RegisterQuantityUseCase } from 'src/app/domain/usecases/product/addStockProductUseCase';
-import { CreateProductUseCase } from './../../domain/usecases/product/registerProductUseCase';
-import { ProductRepository, productModel } from 'src/app/domain';
-import { getAllProductUseCase } from 'src/app/domain/usecases/product/getAllProductUseCase';
+import { IProductModel, IProductSaleModel } from '@domain/models';
+import { ProductRepository } from '@domain/repository';
+import {
+  CreateProductUseCase,
+  GetAllProductUseCase,
+  RegisterCustomerSaleUseCase,
+  RegisterQuantityUseCase,
+  RegisterSellerUseCase,
+} from '@domain/use-case';
 
 export const createProductUseCaseFactory = (
-  productRepository: ProductRepository<productModel>
+  productRepository: ProductRepository<IProductModel>
 ) => new CreateProductUseCase(productRepository);
 
-
-export  const getAllProductUsecaseFactory =
-(
-    productRepository: ProductRepository<productModel>
-
-)=> new getAllProductUseCase(productRepository);
+export const getAllProductUseCaseFactory = (
+  productRepository: ProductRepository<IProductModel>
+) => new GetAllProductUseCase(productRepository);
 export const RegisterQuantityUseCaseFactory = (
-  productRepository: ProductRepository<productModel>
+  productRepository: ProductRepository<IProductModel>
 ) => new RegisterQuantityUseCase(productRepository);
 
 export const registerReSellerUseCaseFactory = (
-  productRepository: ProductRepository<productModel>
-) => new registerReSellerUseCase(productRepository);
+  productRepository: ProductRepository<IProductSaleModel>
+) => new RegisterSellerUseCase(productRepository);
 
 export const registerCustomerSaleUseCaseFactory = (
-    productRepository: ProductRepository<productModel>
-  ) => new RegisterCustomerSaleUseCase(productRepository);
-  
-export const producthUseCaseProviders = {
-  Createproduct: {
+  productRepository: ProductRepository<IProductSaleModel>
+) => new RegisterCustomerSaleUseCase(productRepository);
+
+export const productUseCaseProviders = {
+  createProduct: {
     provide: CreateProductUseCase,
     useFactory: createProductUseCaseFactory,
     deps: [ProductRepository],
@@ -44,13 +44,13 @@ export const producthUseCaseProviders = {
     deps: [ProductRepository],
   },
   sellerSale: {
-    provide: registerReSellerUseCase,
+    provide: RegisterSellerUseCase,
     useFactory: registerReSellerUseCaseFactory,
     deps: [ProductRepository],
   },
-  getAllProduct:{
-    provide: getAllProductUseCase,
-    useFactory: getAllProductUsecaseFactory,
-    dpeps: [ProductRepository]
-  }
+  getAllProduct: {
+    provide: GetAllProductUseCase,
+    useFactory: getAllProductUseCaseFactory,
+    deps: [ProductRepository],
+  },
 };

@@ -1,4 +1,4 @@
-export interface productModel {
+export interface IProductModel {
   productId: string;
   name: string;
   description: string;
@@ -6,4 +6,4 @@ export interface productModel {
   quantity: number;
   category: string;
   branchId: string;
-  }
+}

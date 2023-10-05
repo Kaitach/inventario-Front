@@ -1,5 +1,7 @@
-export interface productInventoryModel {
-    productId: string; 
-    quantity: number;
-    branchId: string
-    }
+export interface IProductSaleModel {
+  products: {
+    id: string;
+    name: string;
+  };
+  branchId: string;
+}

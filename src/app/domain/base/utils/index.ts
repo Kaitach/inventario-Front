@@ -1,1 +1,1 @@
-export * from './mappr';
+export * from './mapper';

@@ -1,4 +1,3 @@
-// socket.service.ts
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
@@ -20,10 +19,7 @@ export class SocketService {
     });
   }
 
-  // Emitir un evento de confirmación al servidor
   emitConfirmationEvent(data: any) {
-    // Puedes personalizar el nombre del evento de confirmación
-    this.socket.emit('confirmacion_evento', data);
+    this.socket.emit('confirm_evento', data);
   }
 }
-
