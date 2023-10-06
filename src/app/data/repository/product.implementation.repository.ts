@@ -15,11 +15,13 @@ import { ProductImplementationRepositoryMapper } from './mappers/product.mapper'
 })
 export class ProductImplementationRepository extends ProductRepository<IProductModel> {
   apiUrl = 'http://localhost:3000/api/v1/product/';
-  apiUrlGetAll = 'http://localhost:3001/api/v1/product/';
-  apiUrlGet = 'http://localhost:3001/api/v1/productes/';
+  apiUrlGet = 'http://localhost:3001/api/v1/product/';
+  apiUrlGetAll = 'http://localhost:3001/api/v1/products/';
 
-  override getAllProduct(): Observable<IProductModel[]> {
-    return this.http.get<IProductModel[]>(this.apiUrlGet);
+  override getAllProduct(id: string): Observable<IProductModel[]> {
+    console.log('GetAllProductUseCase');
+    console.log(this.apiUrlGetAll + id);
+    return this.http.get<IProductModel[]>(this.apiUrlGetAll + id);
   }
 
   registerProduct(data: IProductModel): Observable<IProductModel> {

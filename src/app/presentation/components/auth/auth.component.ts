@@ -43,8 +43,6 @@ export class AuthComponent implements OnInit {
       if (this.authService.login(email, password)) {
         this.authService.setSelectedBranchId(this.selectedBranchId);
         this.authService.setSelectedBranchProducts(this.selectedBranchProducts);
-
-        console.log(`Successfully logged in with ${email}`);
       }
     }
   }
@@ -66,7 +64,7 @@ export class AuthComponent implements OnInit {
 
   onBranchChange(): void {
     const selectedBranch = this.branchesList.find(
-      (branch) => branch.branchId === this.selectedBranchId
+      (branch) => branch.id === this.selectedBranchId
     );
 
     if (selectedBranch) {

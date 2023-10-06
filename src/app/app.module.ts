@@ -8,10 +8,12 @@ import {
   ProductComponent,
   UserComponent,
 } from '@presentation/components';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DataModule, SocketService } from './data';
 
+const config: SocketIoConfig = { url: 'http://localhost:81', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +29,7 @@ import { DataModule, SocketService } from './data';
     FormsModule,
     DataModule,
     ReactiveFormsModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [SocketService],
   bootstrap: [AppComponent],

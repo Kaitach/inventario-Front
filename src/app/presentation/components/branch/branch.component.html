@@ -1,17 +1,74 @@
 <div class="container mt-4">
-  <h2>Registrar Sucursal</h2>
+  <select
+    id="branchId"
+    name="branchId"
+    [(ngModel)]="selectedBranchId"
+    class="form-control"
+    (change)="onBranchChange()"
+  >
+    <option *ngFor="let branch of branchesList" [value]="branch.id">
+      {{ branch.name }}
+    </option>
+  </select>
+  <h2>Sucursal</h2>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let product of _products.getValue()">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <div class="card-body">
+              <p class="card-text">
+                <strong>Precio: </strong>{{ product.price }}
+              </p>
+              <p class="card-text">
+                <strong>Stock: </strong>{{ product.quantity }}
+              </p>
+              <p class="card-text">
+                <strong>Descripción: </strong>{{ product.description }}
+              </p>
+              <p class="card-text">
+                <strong>Categoría: </strong>{{ product.category }}
+              </p>
+              <p class="card-text"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <form [formGroup]="branchForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
       <label for="name" class="form-label">Nombre de la Sucursal:</label>
-      <input type="text" id="name" formControlName="name" class="form-control" required>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        required
+      />
     </div>
     <div class="mb-3">
       <label for="city" class="form-label">Ciudad:</label>
-      <input type="text" id="city" formControlName="city" class="form-control" required>
+      <input
+        type="text"
+        id="city"
+        formControlName="city"
+        class="form-control"
+        required
+      />
     </div>
     <div class="mb-3">
       <label for="country" class="form-label">País:</label>
-      <input type="text" id="country" formControlName="country" class="form-control" required>
+      <input
+        type="text"
+        id="country"
+        formControlName="country"
+        class="form-control"
+        required
+      />
     </div>
     <button type="submit" class="btn btn-primary">Registrar Sucursal</button>
   </form>

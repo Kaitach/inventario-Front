@@ -6,7 +6,7 @@
   class="form-control"
   (change)="onBranchChange()"
 >
-  <option *ngFor="let branch of branchesList" [value]="branch.branchId">
+  <option *ngFor="let branch of branchesList" [value]="branch.id">
     {{ branch.name }}
   </option>
 </select>

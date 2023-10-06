@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 export class GetAllProductUseCase {
   constructor(private productRepository: ProductRepository<IProductModel>) {}
 
-  execute(): Observable<IProductModel[]> {
-    return this.productRepository.getAllProduct();
+  execute(id: string): Observable<IProductModel[]> {
+    console.log('GetAllProductUseCase');
+    return this.productRepository.getAllProduct(id);
   }
 }

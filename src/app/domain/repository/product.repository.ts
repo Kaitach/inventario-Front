@@ -18,5 +18,5 @@ export abstract class ProductRepository<T> {
   abstract registerResellerSale(
     data: IProductSaleModel
   ): Observable<IProductSaleModel>;
-  abstract getAllProduct(): Observable<T[]>;
+  abstract getAllProduct(id: string): Observable<T[]>;
 }

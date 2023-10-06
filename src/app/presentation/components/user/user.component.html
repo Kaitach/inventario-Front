@@ -32,7 +32,7 @@
   </div>
   <label for="branchId" class="form-label">Nombre Sucursal:</label>
   <select id="branchId" formControlName="branchId" class="form-control">
-    <option *ngFor="let branch of branchesList" [value]="branch.branchId">
+    <option *ngFor="let branch of branchesList" [value]="branch.id">
       {{ branch.name }}
     </option>
   </select>
