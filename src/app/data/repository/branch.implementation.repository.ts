@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IBranchModel, IBranchRegisterModel } from '@domain/models';
 import { BranchRepository } from '@domain/repository';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments';
 import { BranchImplementationRepositoryMapper } from './mappers';
 
 @Injectable({
@@ -16,14 +17,14 @@ export class BranchImplementationRepository extends BranchRepository {
 
   createBranch(Branch: IBranchRegisterModel): Observable<IBranchModel> {
     return this.http.post<IBranchModel>(
-      'http://localhost:3000/api/v1/branch/register',
+      `http://${environment.HOST_3000}/api/v1/branch/register`,
       Branch
     );
   }
 
   getAllBranch(): Observable<IBranchModel[]> {
     return this.http.get<IBranchModel[]>(
-      'http://localhost:3001/api/v1/branches/'
+      `http://${environment.HOST_3001}/api/v1/branches/`
     );
   }
 }

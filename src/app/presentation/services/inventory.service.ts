@@ -23,8 +23,6 @@ export class InventorySocket {
     this.socket
       .fromEvent(ProxyEnumEvents.ProductChange)
       .subscribe((data: any) => {
-        console.log(data);
-        console.log('update');
         this.updateProductById(data);
         this.orderbyName();
       });

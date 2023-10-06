@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IBranchModel, IUserRegister } from '@domain/models';
 import { BranchRepository, UserRepository } from '@domain/repository';
 import { BranchUseCaseProviders, userUseCaseProviders } from 'data/factory';
-import { AuthService, SocketService } from 'data/repository';
+import { SocketService } from 'data/repository';
 
 @Component({
   selector: 'app-user',
@@ -15,7 +15,6 @@ export class UserComponent implements OnInit {
     private socketService: SocketService,
     private readonly userRepository: UserRepository,
     private readonly branchRepository: BranchRepository,
-    public authService: AuthService,
     private formBuilder: FormBuilder
   ) {}
 

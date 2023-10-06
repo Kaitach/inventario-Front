@@ -1,3 +1,33 @@
+<p>
+  <button
+    *ngIf="productsSale.length > 0"
+    class="btn btn-primary"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#collapseExample"
+    aria-expanded="false"
+    aria-controls="collapseExample"
+  >
+    Carrito
+  </button>
+</p>
+<div *ngIf="productsSale.length > 0" class="collapse" id="collapseExample">
+  <div *ngFor="let item of productsSale">
+    <div class="card card-body">
+      <div class="row">
+        <div class="col-md-8 input-group">
+          <p>nombre: {{ item.name }}</p>
+          <p class="ms-4">cantidad{{ item.quantity }}</p>
+          <button class="btn btn-danger ms-4" (click)="deleteItem(item.id)">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="purchase()">Finalizar Compra</button>
+</div>
+
 <div class="container mt-4">
   <select
     id="branchId"
@@ -10,14 +40,34 @@
       {{ branch.name }}
     </option>
   </select>
+  <br />
+
   <h2>Sucursal</h2>
+  <br />
 
   <div class="container">
     <div class="row">
-      <div class="col-md-4" *ngFor="let product of products | async">
+      <div
+        class="col-md-4"
+        *ngFor="let product of products | async; let i = index"
+      >
         <div class="card mb-4">
           <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
+            <h5 class="card-title input-group">
+              <p>
+                {{ product.name }}
+              </p>
+              <input
+                type="number"
+                [(ngModel)]="numbersStock[i]"
+                (input)="validarNumero(product.id)"
+                style="width: 50px"
+                class="ms-4"
+              />
+              <button class="btn btn-primary" (click)="addStock(product.id, i)">
+                añadir cantidad
+              </button>
+            </h5>
             <div class="card-body">
               <p class="card-text">
                 <strong>Precio: </strong>{{ product.price }}
@@ -25,6 +75,7 @@
               <p class="card-text">
                 <strong>Stock: </strong>{{ product.quantity }}
               </p>
+
               <p class="card-text">
                 <strong>Descripción: </strong>{{ product.description }}
               </p>
@@ -32,6 +83,24 @@
                 <strong>Categoría: </strong>{{ product.category }}
               </p>
               <p class="card-text"></p>
+              <div class="card-text">
+                <div class="input-group mb-3">
+                  <button (click)="decrement(i)">-</button>
+                  <input
+                    type="number"
+                    [(ngModel)]="numbers[i]"
+                    (input)="validarNumero(product.id)"
+                    style="width: 100px"
+                  />
+                  <button (click)="increment(i)">+</button>
+                  <button
+                    class="btn btn-primary m-auto"
+                    (click)="addToCart(product.id, i)"
+                  >
+                    agregar al carrito
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -49,6 +118,12 @@
         class="form-control"
         required
       />
+      <div
+        *ngIf="branchForm.get('name')?.hasError('required')"
+        class="text-danger"
+      >
+        Nombre de la Sucursal es requerido.
+      </div>
     </div>
     <div class="mb-3">
       <label for="city" class="form-label">Ciudad:</label>
@@ -59,6 +134,13 @@
         class="form-control"
         required
       />
+
+      <div
+        *ngIf="branchForm.get('city')?.hasError('required')"
+        class="text-danger"
+      >
+        Ciudad es requerido.
+      </div>
     </div>
     <div class="mb-3">
       <label for="country" class="form-label">País:</label>
@@ -69,6 +151,12 @@
         class="form-control"
         required
       />
+      <div
+        *ngIf="branchForm.get('country')?.hasError('required')"
+        class="text-danger"
+      >
+        País es requerido.
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">Registrar Sucursal</button>
   </form>

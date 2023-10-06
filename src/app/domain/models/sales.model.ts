@@ -1,11 +1,7 @@
 export interface ISaleModel {
-  id: string;
-  number: string;
   products: {
-    name: string;
-    price: number;
+    id: string;
     quantity: number;
   }[];
-  total: number;
-  date: Date;
+  branchId: string;
 }

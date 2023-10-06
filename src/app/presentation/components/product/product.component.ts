@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IProductModel, IProductRegisterModel } from '@domain/models';
+import { IBranchModel, IProductModel } from '@domain/models';
 import { BranchRepository, ProductRepository } from '@domain/repository';
+import { NotifierService } from 'angular-notifier';
 import { BranchUseCaseProviders, productUseCaseProviders } from 'data/factory';
-import { AuthService, IProductEntity, SocketService } from 'data/repository';
+import { IProductEntity, SocketService } from 'data/repository';
 
 @Component({
   selector: 'app-product',
@@ -11,24 +12,41 @@ import { AuthService, IProductEntity, SocketService } from 'data/repository';
   styleUrls: ['./product.component.css'],
 })
 export class ProductComponent implements OnInit {
+  branchesList: IBranchModel[] = [];
   constructor(
     private readonly productRepository: ProductRepository<IProductModel>,
     private readonly branchRepository: BranchRepository,
     private formBuilder: FormBuilder,
     private socketService: SocketService,
-    private readonly authService: AuthService
+    private readonly notifier: NotifierService
   ) {
+    this.notifier = notifier;
     this.productForm = this.formBuilder.group({
       productId: [''],
       quantity: 0,
     });
 
     this.registerForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      price: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(30),
+        ],
+      ],
+      price: [0, [Validators.required]],
       category: ['', Validators.required],
-      branchId: [''],
+      branchId: ['', Validators.required],
+      quantity: [0, [Validators.required]],
     });
   }
   selectedBranchId!: string;
@@ -43,54 +61,64 @@ export class ProductComponent implements OnInit {
   branchesNames: string[] = [];
   branchId!: string;
   ngOnInit(): void {
-    this.selectedBranchId = this.authService.getSelectedBranchId();
-    this.products = this.authService.getSelectedBranchProducts();
-    this.socketService.listenToEvent('productRegister').subscribe((data) => {
-      console.log('Evento recibido:', JSON.parse(data));
-      const newProduct = JSON.parse(data) as IProductEntity;
-      const existingProductIndex = this.products.findIndex(
-        (product) => product.productId === newProduct.productId
-      );
-
-      if (existingProductIndex !== -1) {
-        // Si ya existe un producto con el mismo ID, actualiza su valor de quantity
-        this.products[existingProductIndex].quantity = newProduct.quantity;
-      } else if (newProduct.branchId === this.selectedBranchId) {
-        // Si no existe un producto con el mismo ID y pertenece a la sucursal seleccionada, agrégalo
-        this.products.push(newProduct);
-      }
+    this.branchRepository.getAllBranch().subscribe((data) => {
+      this.branchesList = data;
     });
   }
 
   onSubmit(): void {
-    this.sendToEndpoint(this.endpoint);
-    this.Modal = !this.Modal;
-    this.registerForm.reset();
+    this.sendToEndpoint();
+    // this.Modal = !this.Modal;
+    // this.registerForm.reset();
   }
 
-  get selectedRole(): string {
-    return this.authService.getSelectedRole();
-  }
-
-  sendToEndpoint(data: string): void {
+  sendToEndpoint(): void {
+    console.log('sendToEndpoint');
     if (this.registerForm.valid) {
-      const registerFormData = this.registerForm.value as IProductRegisterModel;
-      registerFormData.branchId = this.selectedBranchId;
+      console.log({
+        name: this.registerForm.get('name')?.value,
+        description: this.registerForm.get('description')?.value,
+        price: this.registerForm.get('price')?.value,
+        quantity: this.registerForm.get('quantity')?.value,
+        category: this.registerForm.get('category')?.value,
+        branchId: this.registerForm.get('branchId')?.value,
+      });
       this.factory.createProduct
         .useFactory(this.productRepository)
-        .execute(registerFormData)
-        .subscribe();
-    }
-    if (this.productForm.valid) {
-      const idAndQuantity = this.productForm.get<string>('productId')?.value;
-      this.selectedBranchId;
-
-      this.factory.registerQuantity
-        .useFactory(this.productRepository)
-        .execute(idAndQuantity, {
-          quantity: Number(this.productForm.get('quantity')?.value),
+        .execute({
+          name: this.registerForm.get('name')?.value,
+          description: this.registerForm.get('description')?.value,
+          price: this.registerForm.get('price')?.value,
+          quantity: this.registerForm.get('quantity')?.value,
+          category: this.registerForm.get('category')?.value,
+          branchId: this.registerForm.get('branchId')?.value,
         })
-        .subscribe();
+        .subscribe({
+          complete: () => {
+            this.notifier.notify('success', 'Producto registrado con éxito');
+          },
+          error: (error) => {
+            console.log(error);
+            this.notifier.notify(
+              'error',
+              error.error.message ? error.error.message : error
+            );
+          },
+        });
+    } else {
+      console.log('sendToEndpoint invalid');
+      const controlName = this.registerForm.get('name');
+      const controlQuantity = this.registerForm.get('quantity');
+      const controlBranchId = this.registerForm.get('branchId');
+      const controlPrice = this.registerForm.get('price');
+      const controlDescription = this.registerForm.get('description');
+      const controlCategory = this.registerForm.get('category');
+      console.log(controlName?.invalid);
+      console.log(controlQuantity?.invalid);
+      console.log(controlBranchId?.invalid);
+      console.log(controlPrice?.invalid);
+      console.log(controlDescription?.invalid);
+      console.log(controlCategory?.invalid);
     }
   }
 

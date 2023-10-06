@@ -6,8 +6,10 @@ import {
   ProductRepository,
   UserRepository,
 } from '@domain/repository';
+import { SaleRepository } from '@domain/repository/sales.repository';
 import {
   BranchUseCaseProviders,
+  SaleUseCaseProviders,
   productUseCaseProviders,
   userUseCaseProviders,
 } from './factory';
@@ -16,6 +18,7 @@ import {
   ProductImplementationRepository,
   UserImplementationRepository,
 } from './repository';
+import { SaleImplementationRepository } from './repository/sale.implementation.repository';
 
 @NgModule({
   providers: [
@@ -28,6 +31,12 @@ import {
     ProductImplementationRepository,
     ...Object.values(productUseCaseProviders),
     { provide: ProductRepository, useClass: ProductImplementationRepository },
+    SaleImplementationRepository,
+    ...Object.values(SaleUseCaseProviders),
+    {
+      provide: SaleRepository,
+      useClass: SaleImplementationRepository,
+    },
   ],
   imports: [CommonModule, HttpClientModule],
 })

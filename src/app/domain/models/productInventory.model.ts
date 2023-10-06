@@ -1,7 +1,12 @@
 export interface IProductSaleModel {
   products: {
-    id: string;
     name: string;
-  };
+    quantity: number;
+    price: number;
+  }[];
   branchId: string;
+  id: string;
+  number: number;
+  total: number;
+  date: Date;
 }

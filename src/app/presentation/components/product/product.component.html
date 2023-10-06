@@ -2,28 +2,7 @@
   <h2>Formulario de Envío</h2>
   <button
     type="button"
-    class="btn btn-primary"
-    (click)="toggleModal('customer-sale')"
-  >
-    Enviar a Customer
-  </button>
-  <button
-    type="button"
-    class="btn btn-primary"
-    (click)="toggleModal('seller-sale')"
-  >
-    Enviar a Seller
-  </button>
-  <button
-    type="button"
-    class="btn btn-primary"
-    (click)="toggleModal('purchase')"
-  >
-    Agregar inventario
-  </button>
-  <button
-    type="button"
-    class="btn btn-primary"
+    class="btn btn-primary ms-4"
     (click)="toggleModal('register')"
   >
     Registrar Producto
@@ -32,54 +11,13 @@
 
 <div [class.d-none]="Modal" [class.d-block]="!Modal">
   <div class="container mt-4">
-    <form
-      *ngIf="endpoint !== 'register'"
-      (ngSubmit)="onSubmit()"
-      [formGroup]="productForm"
-    >
+    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
       <div class="mb-3">
-        <label for="productId" class="form-label">Nombre Producto:</label>
-        <select
-          id="productId"
-          name="productId"
-          formControlName="productId"
-          class="form-control"
-          required
-        >
-          <option *ngFor="let product of products" [value]="product.productId">
-            {{ product.name }} stock: {{ product.quantity }}
-          </option>
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label for="quantity" class="form-label">Cantidad:</label>
-        <input
-          type="number"
-          id="quantity"
-          name="quantity"
-          formControlName="quantity"
-          class="form-control"
-          required
-        />
-      </div>
-
-      <div class="mb-3">
-        <button type="submit" class="btn btn-primary">Enviar</button>
-      </div>
-    </form>
-
-    <form
-      *ngIf="endpoint === 'register'"
-      (ngSubmit)="onSubmit()"
-      [formGroup]="registerForm"
-    >
-      <div class="mb-3">
-        <label for="productName" class="form-label">Nombre del Producto:</label>
+        <label for="name" class="form-label">Nombre del Producto:</label>
         <input
           type="text"
-          id="productName"
-          name="productName"
+          id="name"
+          name="name"
           formControlName="name"
           class="form-control"
           required
@@ -91,15 +29,50 @@
           Nombre del producto es requerido.
         </div>
       </div>
+      <div class="mb-3">
+        <label for="quantity" class="form-label"
+          >Cantidad del producto a registrar:</label
+        >
+        <input
+          type="number"
+          id="quantity"
+          name="quantity"
+          formControlName="quantity"
+          class="form-control"
+          required
+        />
+        <div
+          *ngIf="registerForm.get('quantity')?.hasError('required')"
+          class="text-danger"
+        >
+          La cantidad es requerida.
+        </div>
+      </div>
 
       <div class="mb-3">
-        <label for="productDescription" class="form-label"
+        <label for="branchId" class="form-label">Nombre de la sucursal:</label>
+
+        <select
+          id="branchId"
+          name="branchId"
+          formControlName="branchId"
+          [(ngModel)]="selectedBranchId"
+          class="form-control"
+        >
+          <option *ngFor="let branch of branchesList" [value]="branch.id">
+            {{ branch.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label"
           >Descripción del Producto:</label
         >
         <input
           type="text"
-          id="productDescription"
-          name="productDescription"
+          id="description"
+          name="description"
           formControlName="description"
           class="form-control"
           required
@@ -113,13 +86,11 @@
       </div>
 
       <div class="mb-3">
-        <label for="productPrice" class="form-label"
-          >Precio del Producto:</label
-        >
+        <label for="price" class="form-label">Precio del Producto:</label>
         <input
           type="number"
-          id="productPrice"
-          name="productPrice"
+          id="price"
+          name="price"
           formControlName="price"
           class="form-control"
           required
@@ -131,28 +102,33 @@
           Precio del producto es requerido.
         </div>
       </div>
-      <label for="productCategory" class="form-label"
-        >Categoría del Producto:</label
-      >
+      <label for="category" class="form-label">Categoría del Producto:</label>
       <select
-        id="productCategory"
-        name="productCategory"
+        id="category"
+        name="category"
         formControlName="category"
         class="form-control"
         required
       >
-        <option value="hand tools">Hand Tools</option>
-        <option value="power tools">Power Tools</option>
-        <option value="locksmithing">Locksmithing</option>
-        <option value="construction hardware">Construction Hardware</option>
-        <option value="paint and accessories">Paint and Accessories</option>
-        <option value="gardening and outdoors">Gardening and Outdoors</option>
-        <option value="safety and protective equipment">
-          Safety and Protective Equipment
+        <option value="Herramientas de Mano">Herramientas de Mano</option>
+        <option value="Herramientas Eléctricas">Herramientas Eléctricas</option>
+        <option value="Cerrajería">Cerrajería</option>
+        <option value="Herrajes de Construcción">
+          Herrajes de Construcción
         </option>
-        <option value="plumbing supplies">Plumbing Supplies</option>
-        <option value="electrical">Electrical</option>
-        <option value="home fixtures">Home Fixtures</option>
+        <option value="Pintura y Accesorios">Pintura y Accesorios</option>
+        <option value="Jardinería y Exteriores">Jardinería y Exteriores</option>
+        <option value="Equipo de Seguridad y Protección">
+          Equipo de Seguridad y Protección
+        </option>
+        <option value="Suministros de Fontanería">
+          Suministros de Fontanería
+        </option>
+        <option value="Material Eléctrico">Material Eléctrico</option>
+        <option value="Accesorios para el Hogar">
+          Accesorios para el Hogar
+        </option>
+        <option value="Otros">Otros</option>
       </select>
       <div
         *ngIf="registerForm.get('category')?.hasError('required')"
@@ -161,9 +137,7 @@
         Categoría del producto es requerida.
       </div>
       <div class="mb-3">
-        <button type="submit" class="btn btn-primary">
-          Enviar (Registro de Producto)
-        </button>
+        <button type="submit" class="btn btn-primary">Registrar</button>
         <button type="button" class="btn btn-secondary" (click)="Modal = true">
           Cancelar
         </button>

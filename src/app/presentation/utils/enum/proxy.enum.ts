@@ -6,4 +6,6 @@ export enum ProxyEnumEvents {
   ProductCreate = 'product.create',
   SaleCreate = 'sale.create',
   LeaveInventory = 'leave.inventory',
+  JoinSale = 'join.sale',
+  LeaveSale = 'leave.sale',
 }

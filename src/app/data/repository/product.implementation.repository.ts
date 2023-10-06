@@ -8,19 +8,18 @@ import {
   IProductSaleModel,
 } from '@domain/models';
 import { ProductRepository } from '@domain/repository';
+import { environment } from 'src/environments';
 import { ProductImplementationRepositoryMapper } from './mappers/product.mapper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductImplementationRepository extends ProductRepository<IProductModel> {
-  apiUrl = 'http://localhost:3000/api/v1/product/';
-  apiUrlGet = 'http://localhost:3001/api/v1/product/';
-  apiUrlGetAll = 'http://localhost:3001/api/v1/products/';
+  apiUrl = `http://${environment.HOST_3000}/api/v1/product/`;
+  apiUrlGet = `http://${environment.HOST_3001}/api/v1/product/`;
+  apiUrlGetAll = `http://${environment.HOST_3001}/api/v1/products/`;
 
   override getAllProduct(id: string): Observable<IProductModel[]> {
-    console.log('GetAllProductUseCase');
-    console.log(this.apiUrlGetAll + id);
     return this.http.get<IProductModel[]>(this.apiUrlGetAll + id);
   }
 
@@ -31,7 +30,7 @@ export class ProductImplementationRepository extends ProductRepository<IProductM
     id: string,
     data: IProductAddQuantityModel
   ): Observable<IProductModel> {
-    return this.http.post<IProductModel>(`${this.apiUrl}/purchase/${id}`, data);
+    return this.http.patch<IProductModel>(`${this.apiUrl}purchase/${id}`, data);
   }
   registerCustomerSale(data: IProductSaleModel): Observable<IProductSaleModel> {
     return this.http.post<IProductSaleModel>(
