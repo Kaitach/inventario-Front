@@ -25,12 +25,10 @@ export class UserComponent implements OnInit {
   selectedRole: string = '';
   factory = userUseCaseProviders;
   branchesList: IBranchModel[] = [];
-  userDataForm!: FormGroup;
+  userDataForm: FormGroup = new FormGroup({});
 
   ngOnInit(): void {
     this.loadBranch();
-    this.selectedRole = this.authService.getSelectedRole();
-    this.setRoles();
     this.userDataForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -85,14 +83,6 @@ export class UserComponent implements OnInit {
             console.error('Error al crear el usuario:', error);
           }
         );
-    }
-  }
-
-  setRoles() {
-    if (this.selectedRole === 'SuperAdmin') {
-      this.roles = ['SuperAdmin', 'Admin', 'Seller'];
-    } else {
-      this.roles = ['Admin', 'Seller'];
     }
   }
 }

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  AuthComponent,
   BranchComponent,
   ProductComponent,
   UserComponent,
@@ -20,7 +19,6 @@ const config: SocketIoConfig = { url: 'http://localhost:81', options: {} };
     BranchComponent,
     ProductComponent,
     UserComponent,
-    AuthComponent,
   ],
   imports: [
     BrowserModule,

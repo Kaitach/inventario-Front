@@ -6,9 +6,8 @@ import {
   IProductModel,
 } from '@domain/models';
 import { BranchRepository, ProductRepository } from '@domain/repository';
+import { InventorySocket } from '@presentation/services/inventory.service';
 import { BranchUseCaseProviders } from 'data/factory';
-import { BehaviorSubject } from 'rxjs';
-import { Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-branch',
@@ -18,20 +17,13 @@ import { Socket } from 'socket.io-client';
 export class BranchComponent implements OnInit {
   branchesList: IBranchModel[] = [];
   selectedBranchId: string = '';
-  _products: BehaviorSubject<IProductModel[]> = new BehaviorSubject<
-    IProductModel[]
-  >([]);
-  products = this._products.asObservable();
+  products = this.socket.products;
   constructor(
-    private readonly socket: Socket,
+    private readonly socket: InventorySocket,
     private readonly branchRepository: BranchRepository,
     private readonly productRepository: ProductRepository<IProductModel>,
     private formBuilder: FormBuilder
   ) {
-    socket.on('product.change', (data: IProductModel) => {
-      console.log(data);
-      this._products.next([...this._products.getValue(), data]);
-    });
     this.branchForm = this.formBuilder.group({
       name: ['', Validators.required],
 
@@ -72,11 +64,11 @@ export class BranchComponent implements OnInit {
   }
 
   onBranchChange(): void {
+    this.socket.joinInventory(this.selectedBranchId);
     this.productRepository
       .getAllProduct(this.selectedBranchId)
       .subscribe((data) => {
-        this._products.next(data);
+        this.socket.setProducts(data);
       });
-    console.log(this.selectedBranchId);
   }
 }

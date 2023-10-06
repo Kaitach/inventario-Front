@@ -1,7 +1,6 @@
 <div class="container mt-4">
   <h2>Formulario de Envío</h2>
   <button
-    *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'"
     type="button"
     class="btn btn-primary"
     (click)="toggleModal('customer-sale')"
@@ -16,7 +15,6 @@
     Enviar a Seller
   </button>
   <button
-    *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'"
     type="button"
     class="btn btn-primary"
     (click)="toggleModal('purchase')"
@@ -24,7 +22,6 @@
     Agregar inventario
   </button>
   <button
-    *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'"
     type="button"
     class="btn btn-primary"
     (click)="toggleModal('register')"
