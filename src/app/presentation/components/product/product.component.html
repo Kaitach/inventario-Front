@@ -1,40 +1,75 @@
 <div class="container mt-4">
   <h2>Formulario de Envío</h2>
-  <button  *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('customer-sale')">Enviar a Customer</button>
-  <button  type="button" class="btn btn-primary" (click)="toggleModal('seller-sale')">Enviar a Seller</button>
-  <button  *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('purchase')">Agregar inventario</button>
-  <button *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('register')">Registrar Producto</button>
-  
+  <div class="row">
+    <div class="col">
+      <button *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('customer-sale')">Enviar a Customer</button>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" (click)="toggleModal('seller-sale')">Enviar a Seller</button>
+    </div>
+    <div class="col">
+      <button *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('purchase')">Agregar inventario</button>
+    </div>
+    <div class="col">
+      <button *ngIf="selectedRole === 'admin' || selectedRole === 'SuperAdmin'" type="button" class="btn btn-primary" (click)="toggleModal('register')">Registrar Producto</button>
+    </div>
   </div>
+</div>
 
-  <div [class.d-none]="Modal" [class.d-block]="!Modal">
+
+<div *ngIf="selectedProductsList.length > 0">
+  <h4 class="mb-3">Productos Seleccionados:</h4>
+  <table class="table table-bordered table-sm">
+    <thead>
+      <tr>
+        <th class="small">Nombre</th>
+        <th class="small">Precio</th>
+        <th class="small">Cantidad a Comprar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let selectedProduct of selectedProductsList; let i = index">
+        <td class="small">{{ selectedProduct.name }}</td>
+        <td class="small">{{ selectedProduct.price}}</td>
+        <td class="small">
+          <input type="number" [(ngModel)]="selectedProductsList[i].quantity"
+                 min="1" max="{{ selectedProduct.quantity }}" class="form-control form-control-sm">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="showAlert" class="alert alert-success">
+  {{ alertMessage }}
+</div>
+
+<button type="submit" class="btn btn-primary" [disabled]="selectedProductsList.length === 0" (click)="enviarSeleccion()">Enviar</button>
+
     <div class="container mt-4">
       <form *ngIf="endpoint !== 'register'" (ngSubmit)="onSubmit()" [formGroup]="productForm">
-        <div class="mb-3">
-          <label for="productId" class="form-label">Nombre Producto:</label>
-          <select
-            id="productId"
-            name="productId"
-            formControlName="productId"           
-            class="form-control"
-            required>
-            <option *ngFor="let product of products" [value]="product.productId">
-              {{ product.name }} stock: {{product.quantity}}
-            </option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="quantity" class="form-label">Cantidad:</label>
-          <input type="number" id="quantity" name="quantity" formControlName="quantity" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-          <button type="submit" class="btn btn-primary">Enviar </button>
-        </div>
+        <h3>Productos Disponibles</h3>
+        <table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th>Nombre Producto</th>
+              <th>Stock</th>
+              <th>Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tbody>
+              <tr *ngFor="let product of products; let index = index" (click)="selectProduct(product)" style="cursor: pointer;">
+                <td>{{ product.name }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.price }}</td>
+              </tr>
+            </tbody>
+        </table>
       </form>
-
+    
       <form *ngIf="endpoint === 'register'" (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+        <h3>Registrar Producto</h3>
         <div class="mb-3">
           <label for="productName" class="form-label">Nombre del Producto:</label>
           <input type="text" id="productName" name="productName" formControlName="name"  class="form-control" required>
@@ -79,4 +114,3 @@
             </div>
           </form>
         </div>
-      </div>

@@ -11,7 +11,8 @@ BranchEntity,
    location: param.location,
    name: param.name,
    products: [],
-   users: []
+   users: [],
+   sales: []
 
     };
   }
@@ -21,7 +22,9 @@ BranchEntity,
         location: param.location,
         name: param.name,
         products: [],
-        users: []
+        users: [],
+        sales: []
+
     };
   }
 }

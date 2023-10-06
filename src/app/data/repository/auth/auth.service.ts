@@ -10,6 +10,8 @@ export class AuthService {
   private selectedRole!: string;
   selectedBranchId: string = '';
   selectedBranchProducts: any[] = [];
+  selectedBranchSales: any[] = []
+  selectedBranchUsers: any[] = [];
   constructor(private router: Router) { }
 
   login(email: string, password: string): boolean {
@@ -49,7 +51,12 @@ export class AuthService {
   setSelectedBranchId(branchId: string): void {
     this.selectedBranchId = branchId;
   }
-
+  setSelectedBranchUsers(users: any[]):  void {
+    this.selectedBranchUsers = users;
+  }
+  setSelectedBranchSale(sales: any[]):  void {
+    this.selectedBranchSales = sales;
+  }
   getSelectedBranchId(): string {
     return this.selectedBranchId;
   }
@@ -60,5 +67,12 @@ export class AuthService {
 
   getSelectedBranchProducts(): any[] {
     return this.selectedBranchProducts;
+  }
+  getSelectedBranchSales(): any[] {
+    return this.selectedBranchSales;
+  }
+
+  getSelectedBranchUsers(): any[] {
+    return this.selectedBranchUsers;
   }
 }

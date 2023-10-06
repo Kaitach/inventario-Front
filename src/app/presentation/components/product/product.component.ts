@@ -52,21 +52,26 @@ export class ProductComponent implements OnInit {
   productNames: string[] = [];
   branchsNames: string[] = [];
   branchId!: string;
+  selectedProduct: any;
+  selectedProductsList: any[] = [];
+  selectedQuantity: number[] = [];
+  showAlert: boolean = false;
+  alertMessage: string = '';
+
+
   ngOnInit(): void {
     this.selectedBranchId = this.authService.getSelectedBranchId();
     this.products = this.authService.getSelectedBranchProducts();
-    this.socketService.listenToEvent('productRegister').subscribe((data) => {
-      console.log('Evento recibido:', JSON.parse(data));
+    console.log(this.products)
+    this.socketService.listenToEvent(`productRegister_${this.selectedBranchId}` || 'productReSeller').subscribe((data) => {
       const newProduct = JSON.parse(data) as IproductEntity;
       const existingProductIndex = this.products.findIndex(
         (product) => product.productId === newProduct.productId
       );
     
       if (existingProductIndex !== -1) {
-        // Si ya existe un producto con el mismo ID, actualiza su valor de quantity
         this.products[existingProductIndex].quantity = newProduct.quantity;
       } else if (newProduct.branchId === this.selectedBranchId) {
-        // Si no existe un producto con el mismo ID y pertenece a la sucursal seleccionada, agrégalo
         this.products.push(newProduct);
       }
     });
@@ -81,7 +86,15 @@ export class ProductComponent implements OnInit {
   get selectedRole(): string {
     return this.authService.getSelectedRole();
   }
-
+  selectProduct(product: any) {
+    this.selectedProduct = product;
+    this.selectedProductsList.push({
+      name: product.name,
+      price: product.price,
+      productId: product.productId,
+      quantity: 1, 
+    });
+  }
   sendToEndpoint(data: string): void {
     if (this.registerForm.valid) {
       const registerFormData = this.registerForm.value as IProductRegisterModel;
@@ -101,8 +114,59 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  toggleModal(data: string) {
-    this.endpoint = data;
-    this.Modal = false;
+ 
+  toggleModal(target: string): void {
+    if (target === 'customer-sale') {
+      this.endpoint = 'customer-sale';
+    } else if (target === 'seller-sale') {
+      this.endpoint = 'seller-sale';
+    } else if (target === 'purchase') {
+      this.endpoint = 'purchase';
+    } else if (target === 'register') {
+      this.endpoint = 'register';
+    }
+  }
+  enviarSeleccion() {
+    if (this.selectedProductsList.length === 0) {
+      return; 
+    }    
+
+
+    let factoryToUse: any;
+
+    if (this.endpoint === 'customer-sale') {
+      factoryToUse = this.factory.customerSale;
+    } else if (this.endpoint === 'seller-sale') {
+      factoryToUse = this.factory.sellerSale;
+    } else if (this.endpoint === 'purchase') {
+      factoryToUse = this.factory.registerQuantity;
+    } 
+
+
+    factoryToUse
+      .useFactory(this.productRepository)
+      .execute(this.selectedProductsList as unknown as productModel, `${this.selectedBranchId}` )
+      .subscribe(
+        (response: any) => {
+          this.showAutoCloseAlert('Solicitud enviada con exito', 1000)
+        },
+        (error: any) => {
+          console.error('Error al registrar cantidad', error);
+        }
+      );
+      this.selectedProductsList = [];
+      this.selectedQuantity = [];
+  }
+
+
+
+  showAutoCloseAlert(message: string, duration: number): void {
+    this.alertMessage = message;
+    this.showAlert = true;
+
+    setTimeout(() => {
+      this.showAlert = false;
+      this.alertMessage = '';
+    }, duration);
   }
 }

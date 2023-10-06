@@ -10,7 +10,6 @@ export class RoleSuperGuard implements CanActivate {
 
   canActivate(): boolean {
     const userRole = this.authService.getSelectedRole();
-    console.log(userRole)
     if ( userRole === 'SuperAdmin') {
       return true;
     } else {

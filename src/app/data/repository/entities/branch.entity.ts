@@ -4,4 +4,6 @@ export interface BranchEntity {
     name: string;
     products: [],
     users: [],
+    sales: []
+
   }

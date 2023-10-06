@@ -1,4 +1,5 @@
 import { productModel } from './product.model';
+import { SaleModel } from './sale.model';
 import { UserModel } from './user.model';
 
 export interface IBranchModel {
@@ -7,4 +8,5 @@ export interface IBranchModel {
   location: string;
   products: productModel[];
   users: UserModel[];
+  sales: SaleModel[]
 }

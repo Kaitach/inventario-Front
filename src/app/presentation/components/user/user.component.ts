@@ -6,6 +6,7 @@ import { IuserRegister } from 'src/app/domain/models/userRegister';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/data/repository/auth/auth.service';
 import { SocketService } from 'src/app/data/repository/webSoket/socketService';
+import { UserEntity } from 'src/app/data/repository';
 
 @Component({
   selector: 'app-user',
@@ -20,47 +21,41 @@ export class UserComponent implements OnInit {
  
   factoryBranch = BranchUseCaseProviders
 
-
+  users: any[] = []; 
   roles!: string[] ;
   selectedRole: string = '';
   factory = userUseCaseProviders
   branchsList: IBranchModel[] = [];
   userDataForm!: FormGroup;
+  selectedBranchId!: string;
 
 
   ngOnInit(): void {
-    this.loadBranch()
+    this.selectedBranchId = this.authService.getSelectedBranchId();
+    this.users = this.authService.getSelectedBranchUsers()
     this.selectedRole = this.authService.getSelectedRole();
     this.setRoles()
+    console.log(this.users)
     this.userDataForm = this.formBuilder.group({
-      
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
       
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      branchId: ['', Validators.required],
+      branchId: [this.selectedBranchId, Validators.required],
       role: ['', Validators.required],
     });
 
-    this.socketService.listenToEvent('branchRegister').subscribe((data) => {
-      console.log('Evento recibido:', data);
+    this.socketService.listenToEvent(`new.User_${this.selectedBranchId}`).subscribe((data) => {
+       const user = JSON.parse(data) as UserEntity;
 
-      this.loadBranch();
+      this.users.push(user);
+
     });
   }
 
-  loadBranch(): void {
-    this.factoryBranch.getallBranch.useFactory(this.branchRepository).execute().subscribe(   (data) => {
-      this.branchsList = data;
-
-
-    },
-    (error) => {
-      console.error('Error al obtener la lista de productos:', error);
-    }
-  );
-  }
+  
+  
   onSubmit(): void {
     if (this.userDataForm.valid) {
       const formData: IuserRegister = {
@@ -71,8 +66,9 @@ export class UserComponent implements OnInit {
           firstName:this.userDataForm.get('firstName')?.value,
           lastName:this.userDataForm.get('lastName')?.value,
         },
-        branchId: this.userDataForm.get('branchId')?.value,
+        branchId: this.selectedBranchId
       };
+      console.log(this.userDataForm)
 
       this.factory.createUser.useFactory(this.userRepository).execute(formData).subscribe(
         (response) => {

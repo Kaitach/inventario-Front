@@ -7,9 +7,12 @@ import { AuthComponent } from './presentation/components/auth/auth.component';
 import { AuthGuard } from './presentation/utils/guard/auth.guard';
 import { RoleGuard } from './presentation/utils/guard/rolAdmin.guard';
 import { RoleSuperGuard } from './presentation/utils/guard/rolSuperAdmin.guard';
+import { SaleComponent } from './presentation/components/sale/sale.component';
 
 const routes: Routes = [
   { path: 'user', component: UserComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: 'sale', component: SaleComponent, canActivate: [AuthGuard, RoleGuard] },
+
   { path: 'product', component: ProductComponent , canActivate: [AuthGuard]},
   { path: 'branch', component: BranchComponent, canActivate: [AuthGuard,RoleSuperGuard] },
   { path: 'login', component: AuthComponent },

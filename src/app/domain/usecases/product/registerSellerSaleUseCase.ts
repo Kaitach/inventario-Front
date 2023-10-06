@@ -3,12 +3,12 @@ import { UseCase } from '../../base/use-case';
 import {  ProductRepository, productModel } from '../..';
 
 
-export class registerReSellerUseCase implements UseCase<productModel, productModel> {
+export class registerReSellerUseCase  {
   constructor(private ProductRepository: ProductRepository<productModel>) {}
 
-  execute(product: productModel): Observable<productModel> {
+  execute(product: productModel, url:string): Observable<productModel> {
 
 
-    return this.ProductRepository.registerResellerSale(product);
+    return this.ProductRepository.registerResellerSale(product, url);
   }
 }

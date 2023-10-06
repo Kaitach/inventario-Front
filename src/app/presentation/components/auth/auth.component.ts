@@ -15,6 +15,8 @@ export class AuthComponent implements OnInit {
   factoryBranch = BranchUseCaseProviders;
   selectedBranchId: string = '';
   selectedBranchProducts: any[] = [];
+  selectedBranchUsers: any[] = [];
+  selectedBranchSales: any[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,7 +44,8 @@ export class AuthComponent implements OnInit {
       if (this.authService.login(email, password)) {
         this.authService.setSelectedBranchId(this.selectedBranchId);
         this.authService.setSelectedBranchProducts(this.selectedBranchProducts);
-
+        this.authService.setSelectedBranchUsers(this.selectedBranchUsers)
+        this.authService.setSelectedBranchSale(this.selectedBranchSales)
         console.log(`Successfully logged in with ${email}`);
       }
     }
@@ -70,6 +73,9 @@ export class AuthComponent implements OnInit {
 
     if (selectedBranch) {
       this.selectedBranchProducts = selectedBranch.products;
+      this.selectedBranchUsers = selectedBranch.users;
+      this.selectedBranchSales =selectedBranch.sales
+
     }
   }
 }

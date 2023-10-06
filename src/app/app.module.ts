@@ -11,6 +11,8 @@ import { ProductComponent } from './presentation/components/product/product.comp
 import { UserComponent } from './presentation/components/user/user.component';
 import { AuthComponent } from './presentation/components/auth/auth.component';
 import { SocketService } from './data/repository/webSoket/socketService';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { SaleComponent } from './presentation/components/sale/sale.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { SocketService } from './data/repository/webSoket/socketService';
     BranchComponent,
     ProductComponent,
     UserComponent,
-    AuthComponent
+    AuthComponent,
+    SaleComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,8 @@ import { SocketService } from './data/repository/webSoket/socketService';
     AppRoutingModule,
     FormsModule,
     DataModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [SocketService],
   bootstrap: [AppComponent],

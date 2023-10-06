@@ -26,17 +26,17 @@ export class ProductImplementationRepository extends ProductRepository<productMo
     )  }
   registerquantity(data: productModel,url:string): Observable<productModel> {
     return this.http.post<productModel>(
-      `${this.apiUrl}${url}/${data.productId}`,
+      `${this.apiUrl}purchase/${url}`,
       data
     )  }
-   registerCustomerSale(data: productModel): Observable<productModel> {
+   registerCustomerSale(data: productModel,url:string): Observable<productModel> {
     return this.http.post<productModel>(
-      `${this.apiUrl}customer-sale/${data.productId}`,
+      `${this.apiUrl}customer-sale/${url}`,
       data
     )  }
-   registerResellerSale(data: productModel): Observable<productModel> {
+   registerResellerSale(data: productModel,url:string): Observable<productModel> {
     return this.http.post<productModel>(
-      `${this.apiUrl}seller-sale/${data.productId}`,
+      `${this.apiUrl}seller-sale/${url}`,
       data
     )  }
    getProductById(id: string): Observable<productModel> {
