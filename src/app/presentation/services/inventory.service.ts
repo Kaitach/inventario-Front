@@ -18,11 +18,15 @@ export class InventorySocket {
       .fromEvent(ProxyEnumEvents.ProductCreate)
       .subscribe((data: any) => {
         this.addProduct(data);
+        this.orderbyName();
       });
     this.socket
       .fromEvent(ProxyEnumEvents.ProductChange)
       .subscribe((data: any) => {
-        this.updateProductById(data.id);
+        console.log(data);
+        console.log('update');
+        this.updateProductById(data);
+        this.orderbyName();
       });
   }
 
@@ -53,6 +57,17 @@ export class InventorySocket {
     const products = this._products.value;
     const index = products.findIndex((p) => p.id === product.id);
     products[index] = product;
+    this._products.next(products);
+  }
+
+  orderbyName() {
+    const products = this._products.value;
+    products.sort((a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+      return -1;
+    });
     this._products.next(products);
   }
 }

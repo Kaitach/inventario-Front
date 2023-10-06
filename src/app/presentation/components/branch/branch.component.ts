@@ -69,6 +69,7 @@ export class BranchComponent implements OnInit {
       .getAllProduct(this.selectedBranchId)
       .subscribe((data) => {
         this.socket.setProducts(data);
+        this.socket.orderbyName();
       });
   }
 }
