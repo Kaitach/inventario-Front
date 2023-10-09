@@ -36,17 +36,20 @@
     Compra al por mayor
     <input type="checkbox" name="sale" id="sale" [(ngModel)]="isChecked" />
   </div>
-  <button
-    (click)="purchase()"
-    class="btn btn-primary rounded"
-    style="width: 20vw"
-  >
-    <span class="cart-animation" [ngClass]="{ active: carActive }">
-      <i *ngIf="!showCarString" class="bi bi-truck"></i>
-      <span *ngIf="!showCarString"> Finalizar Compra </span>
-      <i *ngIf="showCarCheck" class="bi bi-check2-circle"></i>
-    </span>
-  </button>
+  <div class="buttons">
+    <button
+      class="sale-button"
+      (click)="purchase()"
+      [ngClass]="{ saleClicked: saleClicked }"
+    >
+      <span class="add-to-sale">Finalizar compra</span>
+      <span class="added-sale fs-4">
+        <i class="bi-check2-circle blue"></i>
+      </span>
+      <i class="fs-4 bi bi-truck-flatbed"></i>
+      <i class="fs-12 bi bi-square-fill blue"></i>
+    </button>
+  </div>
 </div>
 <!-- Otras opciones del carrito, como compra al por mayor y finalizar compra -->
 
@@ -118,21 +121,20 @@
                       +
                     </div>
                   </div>
-
-                  <button
-                    (click)="addToCart(product.id, i)"
-                    class="btn btn-primary rounded"
-                    style="width: 15vw"
-                  >
-                    <span
-                      class="cart-animation"
-                      [ngClass]="{ active: cartActive[i] }"
+                  <div class="buttons">
+                    <button
+                      class="cart-button"
+                      [ngClass]="{ clicked: cartClicked[i] }"
+                      (click)="addToCart(product.id, i)"
                     >
-                      <i *ngIf="!showString[i]" class="bi bi-cart"></i>
-                      <span *ngIf="!showString[i]"> Añadir al carrito </span>
-                      <i *ngIf="showCheck[i]" class="bi bi-cart-check-fill"></i>
-                    </span>
-                  </button>
+                      <span class="add-to-cart">Añadir al carrito</span>
+                      <span class="added fs-4"
+                        ><i class="bi bi-cart-check-fill blue"></i
+                      ></span>
+                      <i class="fs-4 bi bi-cart-fill blue"></i>
+                      <i class="fs-10 bi bi-square-fill blue"></i>
+                    </button>
+                  </div>
                 </div>
               </td>
             </tr>

@@ -22,12 +22,8 @@ export class GetAllProductsComponent implements OnInit {
   numbers: number[] = [];
   isChecked: boolean = false;
   factorySale = SaleUseCaseProviders;
-  cartActive: boolean[] = [];
-  carActive: boolean = false;
-  showCarCheck: boolean = false;
-  showCarString: boolean = false;
-  showCheck: boolean[] = [];
-  showString: boolean[] = [];
+  cartClicked: boolean[] = [];
+  saleClicked: boolean = false;
 
   productsSale: {
     id: string;
@@ -58,9 +54,7 @@ export class GetAllProductsComponent implements OnInit {
         const number = data.length - this.numbers.length;
         const auxNumbers: number[] = new Array(number).fill(0);
         this.numbers = [...this.numbers, ...auxNumbers];
-        this.cartActive = new Array(this.numbers.length).fill(false);
-        this.showCheck = new Array(this.numbers.length).fill(false);
-        this.showString = new Array(this.numbers.length).fill(false);
+        this.cartClicked = new Array(this.numbers.length).fill(false);
       }
     });
   }
@@ -99,31 +93,13 @@ export class GetAllProductsComponent implements OnInit {
       return;
     }
 
-    this.cartActive[index] = true;
+    this.cartClicked[index] = true;
 
-    setTimeout(() => {
-      this.cartActive[index] = false;
-
-      setTimeout(() => {
-        this.showString[index] = true;
-        this.showCheck[index] = true;
-      }, 500);
-
-      setTimeout(() => {
-        this.showString[index] = false;
-        this.showCheck[index] = false;
-      }, 2500);
-
-      setTimeout(() => {
-        this.showString[index] = true;
-        this.showCheck[index] = true;
-        this.productsSale.push({
-          id: i,
-          name: product?.name ? product.name : '',
-          quantity: this.numbers[index],
-        });
-      });
-    }, 2000);
+    this.productsSale.push({
+      id: i,
+      name: product?.name ? product.name : '',
+      quantity: this.numbers[index],
+    });
   }
 
   closeCart() {
@@ -141,54 +117,38 @@ export class GetAllProductsComponent implements OnInit {
   }
 
   purchase(): void {
-    this.carActive = true;
+    this.factorySale.createSale
+      .useFactory(this.saleRepository)
+      .execute(
+        {
+          products: this.productsSale,
+          branchId: this.branchId,
+        },
+        this.isChecked ? 'seller-sale' : 'customer-sale'
+      )
+      .subscribe({
+        complete: () => {
+          this.saleClicked = true;
+          this.resetNumbers();
+          this.notifier.notify('success', 'Compra realizada con éxito');
 
-    setTimeout(() => {
-      this.carActive = false;
-
-      setTimeout(() => {
-        this.showCarString = true;
-        this.showCarCheck = true;
-      }, 500);
-
-      setTimeout(() => {
-        this.showCarString = false;
-        this.showCarCheck = false;
-      }, 2500);
-
-      setTimeout(() => {
-        this.showCarString = true;
-        this.showCarCheck = true;
-        setTimeout(() => {
-          this.factorySale.createSale
-            .useFactory(this.saleRepository)
-            .execute(
-              {
-                products: this.productsSale,
-                branchId: this.branchId,
-              },
-              this.isChecked ? 'seller-sale' : 'customer-sale'
-            )
-            .subscribe({
-              complete: () => {
-                this.notifier.notify('success', 'Compra realizada con éxito');
-                this.productsSale = [];
-                this.resetNumbers();
-              },
-              error: (error) => {
-                this.notifier.notify(
-                  'error',
-                  error.error.message ? error.error.message : error
-                );
-              },
-            });
-        }, 500);
+          setTimeout(() => {
+            this.productsSale = [];
+            this.saleClicked = false;
+          }, 3500);
+        },
+        error: (error) => {
+          this.notifier.notify(
+            'error',
+            error.error.message ? error.error.message : error
+          );
+        },
       });
-    }, 2000);
   }
 
   resetNumbers(): void {
     this.numbers = new Array(this.numbers.length).fill(0);
+    this.cartClicked = new Array(this.numbers.length).fill(false);
   }
 
   pageChanged(event: any): void {

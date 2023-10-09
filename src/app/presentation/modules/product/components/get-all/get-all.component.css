@@ -229,21 +229,249 @@ input[type="number"]::-webkit-outer-spin-button {
   position: fixed;
   top: 0;
   right: 0;
-  background-color: white; /* Cambia el color de fondo según tus preferencias */
-  z-index: 1000; /* Asegura que el carrito esté en la parte superior */
+  background-color: white;
+  z-index: 1000;
   padding: 10px;
-  border: 1px solid #ccc; /* Agrega un borde si lo deseas */
-  max-height: 80vh; /* Limita la altura del carrito para evitar que ocupe toda la pantalla */
-  overflow-y: auto; /* Agrega una barra de desplazamiento si es necesario */
+  border: 1px solid #ccc;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .close-icon {
   cursor: pointer;
   font-size: 20px;
   margin-left: 10px;
-  color: #ff0000; /* Cambia el color si lo deseas */
+  color: #0000e0;
 }
 
 .close-icon:hover {
-  color: #ff6666; /* Cambia el color al pasar el mouse si lo deseas */
+  color: #0a58ca;
+}
+
+.buttons {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  width: inherit;
+  justify-content: center;
+  align-items: center;
+}
+.cart-button {
+  position: relative;
+  outline: 0;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  height: 48px;
+  width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  line-height: 0px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.cart-button:focus {
+  outline: none !important;
+}
+.cart-button .bi-cart-fill {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: -20%;
+  font-size: 1.8em;
+  transform: translate(-50%, -50%);
+}
+.cart-button .bi-square-fill {
+  position: absolute;
+  z-index: 1;
+  top: -20%;
+  left: 50%;
+  font-size: 0.8em;
+  transform: translate(-110%, -50%);
+}
+.cart-button span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: #fff;
+  transform: translate(-50%, -50%);
+}
+.cart-button span.added {
+  opacity: 0;
+}
+.cart-button.clicked .bi-cart-fill {
+  animation: cart 2s ease-in forwards;
+}
+.cart-button.clicked .bi-square-fill {
+  animation: box 2s ease-in forwards;
+}
+.cart-button.clicked span.add-to-cart {
+  animation: addcart 2s ease-in forwards;
+}
+.cart-button.clicked span.added {
+  animation: added 2s ease-in forwards;
+}
+
+.sale-animation {
+  display: inline-block;
+  transition: transform 2s;
+}
+
+.sale-animation.active {
+  animation: moveCart 2s linear;
+}
+
+@keyframes cart {
+  0% {
+    left: -10%;
+  }
+  40%,
+  60% {
+    left: 50%;
+  }
+  100% {
+    left: 110%;
+  }
+}
+@keyframes box {
+  0%,
+  40% {
+    top: -20%;
+  }
+  60% {
+    top: 36%;
+    left: 53%;
+  }
+  100% {
+    top: 40%;
+    left: 112%;
+  }
+}
+@keyframes addcart {
+  0%,
+  30% {
+    opacity: 1;
+  }
+  30%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes added {
+  0%,
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.clicked {
+  background-color: #5e6a75ed;
+}
+
+.sale-button {
+  position: relative;
+  outline: 0;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  height: 48px;
+  width: 90%;
+  padding: 10px;
+  border-radius: 10px;
+  line-height: 0px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.sale-button:focus {
+  outline: none !important;
+}
+.sale-button .bi-truck-flatbed {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: -30%;
+  font-size: 1.8em;
+  transform: translate(-50%, -50%);
+}
+.sale-button .bi-square-fill {
+  position: absolute;
+  z-index: 1;
+  top: -20%;
+  left: 50%;
+  font-size: 0.8em;
+  transform: translate(-115%, -40%);
+}
+.sale-button span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: #fff;
+  transform: translate(-50%, -50%);
+}
+.sale-button span.added-sale {
+  opacity: 0;
+}
+.sale-button.saleClicked .bi-truck-flatbed {
+  animation: sale 2s ease-in forwards;
+}
+.sale-button.saleClicked .bi-square-fill {
+  animation: box-sale 2s ease-in forwards;
+}
+.sale-button.saleClicked span.add-to-sale {
+  animation: addsale 2s ease-in forwards;
+}
+.sale-button.saleClicked span.added-sale {
+  animation: added-sale 2s ease-in forwards;
+}
+@keyframes sale {
+  0% {
+    left: -10%;
+  }
+  40%,
+  60% {
+    left: 50%;
+  }
+  100% {
+    left: 110%;
+  }
+}
+@keyframes box-sale {
+  0%,
+  40% {
+    top: -20%;
+  }
+  60% {
+    top: 36%;
+    left: 53%;
+  }
+  100% {
+    top: 40%;
+    left: 112%;
+  }
+}
+@keyframes addsale {
+  0%,
+  30% {
+    opacity: 1;
+  }
+  30%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes added-sale {
+  0%,
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.saleClicked {
+  background-color: #2ecc71;
 }
