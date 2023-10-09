@@ -4,13 +4,11 @@ import { IBranchModel, IBranchRegisterModel } from '@domain/models';
 import { BranchRepository } from '@domain/repository';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments';
-import { BranchImplementationRepositoryMapper } from './mappers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BranchImplementationRepository extends BranchRepository {
-  BranchMapper = new BranchImplementationRepositoryMapper();
   constructor(private http: HttpClient) {
     super();
   }

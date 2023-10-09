@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IBranchModel, IUserRegister } from '@domain/models';
 import { BranchRepository, UserRepository } from '@domain/repository';
 import { BranchUseCaseProviders, userUseCaseProviders } from 'data/factory';
-import { SocketService } from 'data/repository';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +11,6 @@ import { SocketService } from 'data/repository';
 })
 export class UserComponent implements OnInit {
   constructor(
-    private socketService: SocketService,
     private readonly userRepository: UserRepository,
     private readonly branchRepository: BranchRepository,
     private formBuilder: FormBuilder
@@ -36,12 +34,6 @@ export class UserComponent implements OnInit {
       password: ['', Validators.required],
       branchId: ['', Validators.required],
       role: ['', Validators.required],
-    });
-
-    this.socketService.listenToEvent('branchRegister').subscribe((data) => {
-      console.log('Evento recibido:', data);
-
-      this.loadBranch();
     });
   }
 

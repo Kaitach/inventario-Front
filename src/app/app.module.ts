@@ -12,7 +12,7 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DataModule, SocketService } from './data';
+import { DataModule } from './data';
 
 const config: SocketIoConfig = { url: environment.HOST_81, options: {} };
 @NgModule({
@@ -32,7 +32,7 @@ const config: SocketIoConfig = { url: environment.HOST_81, options: {} };
     SocketIoModule.forRoot(config),
     NotifierModule,
   ],
-  providers: [SocketService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

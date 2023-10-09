@@ -16,10 +16,7 @@ export class SaleImplementationRepository extends SaleRepository {
     Sale: ISaleModel,
     type: string
   ): Observable<IProductSaleModel> {
-    return this.http.patch<IProductSaleModel>(
-      `${this.apiUrl}customer-sale/`,
-      Sale
-    );
+    return this.http.patch<IProductSaleModel>(`${this.apiUrl}${type}/`, Sale);
   }
   override getAllSale(id: string): Observable<IProductSaleModel[]> {
     return this.http

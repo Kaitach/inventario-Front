@@ -1,2 +1,2 @@
-export * from './getAllBranchUseCase';
-export * from './registerBranchUseCase';
+export * from './get-all.branch.use-case';
+export * from './register.branch.use-case';

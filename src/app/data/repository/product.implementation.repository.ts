@@ -9,7 +9,6 @@ import {
 } from '@domain/models';
 import { ProductRepository } from '@domain/repository';
 import { environment } from 'src/environments';
-import { ProductImplementationRepositoryMapper } from './mappers/product.mapper';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +46,6 @@ export class ProductImplementationRepository extends ProductRepository<IProductM
   getProductById(id: string): Observable<IProductModel> {
     return this.http.get<IProductModel>(`${this.apiUrlGetAll}${id}`);
   }
-  ProductMapper = new ProductImplementationRepositoryMapper();
   constructor(private http: HttpClient) {
     super();
   }

@@ -1,1 +1,1 @@
-export * from './sale-register.use-case';
+export * from './register.sale.use-case';

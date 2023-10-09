@@ -1,0 +1,249 @@
+.table-wrapper {
+  width: auto;
+  margin: auto;
+  background: #fff;
+  padding: 20px 30px 5px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.table-title .btn {
+  min-width: 50px;
+  border-radius: 2px;
+  border: none;
+  padding: 6px 12px;
+  font-size: 95%;
+  outline: none !important;
+}
+
+table.table tr th,
+table.table tr td {
+  border-color: #e9e9e9;
+  padding: 12px 15px;
+  vertical-align: middle;
+  width: auto;
+}
+
+table.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #fcfcfc;
+}
+table.table-striped.table-hover tbody tr:hover {
+  background: #f5f5f5;
+}
+table.table td a {
+  color: #2196f3;
+}
+table.table td .btn.manage {
+  padding: 2px 10px;
+  background: #37bc9b;
+  color: #fff;
+  border-radius: 2px;
+}
+table.table td .btn.manage:hover {
+  background: #2e9c81;
+}
+
+td > a {
+  text-decoration: solid;
+  text-decoration-color: #184dca;
+  color: #184dca;
+}
+
+.herramientas-de-mano {
+  background-color: #e74c3c;
+}
+
+.herramientas-electricas {
+  background-color: #f1c40f;
+}
+
+.cerrajeria {
+  background-color: #3498db;
+}
+
+.herrajes-de-construccion {
+  background-color: #e67e22;
+}
+
+.pintura-y-accesorios {
+  background-color: #9b59b6;
+}
+
+.jardineria-y-exteriores {
+  background-color: #2ecc71;
+}
+
+.equipo-de-seguridad-y-proteccion {
+  background-color: #ff00ae;
+}
+
+.suministros-de-fontaneria {
+  background-color: #d400ff;
+}
+
+.material-electrico {
+  background-color: #0fd7f1;
+}
+
+.accesorios-para-el-hogar {
+  background-color: #b0463b;
+}
+
+.otros {
+  background-color: #95a5a6;
+}
+
+.category {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  color: white;
+}
+
+.button-quantity {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.value-button {
+  display: inline-block;
+  border: 3px solid #ddd;
+  margin: 0px;
+  width: 30px;
+  text-align: center;
+  vertical-align: middle;
+  padding: 4px 0;
+  background: #eee;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.value-button:hover {
+  cursor: pointer;
+}
+
+.button-quantity #decrease {
+  border-radius: 4px 0 0 4px;
+  border-color: #0000e0;
+  z-index: 1;
+}
+
+.button-quantity #increase {
+  border-radius: 0 4px 4px 0;
+  border-color: #0000e0;
+  z-index: 1;
+}
+
+.button-quantity #input-wrap {
+  margin: 0px;
+  padding: 0px;
+}
+
+input#number {
+  text-align: center;
+  border: none;
+  width: 40px;
+  height: 37px;
+  background-color: transparent;
+  padding-bottom: 5px;
+  margin: 0px;
+}
+
+input#number:focus-visible {
+  outline: none;
+}
+
+.siz::before {
+  box-sizing: content-box !important;
+}
+
+.siz::after {
+  box-sizing: content-box !important;
+}
+
+.siz {
+  height: 22px !important;
+  box-sizing: content-box !important;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#content {
+  margin-left: 5000px !important;
+  transition: all 0.3s;
+}
+
+#sidebar.active ~ #content {
+  margin-left: 900px !important;
+}
+
+#main {
+  width: 80vw;
+  margin-left: 50px !important;
+  margin-top: 30px !important;
+}
+
+.my-pagination ::ng-deep .ngx-pagination .current {
+  background: #0a58ca;
+}
+
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.cart-animation {
+  display: inline-block;
+  transition: transform 2s;
+}
+
+.cart-animation.active {
+  animation: moveCart 2s linear;
+}
+
+@keyframes moveCart {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+.cart-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: white; /* Cambia el color de fondo según tus preferencias */
+  z-index: 1000; /* Asegura que el carrito esté en la parte superior */
+  padding: 10px;
+  border: 1px solid #ccc; /* Agrega un borde si lo deseas */
+  max-height: 80vh; /* Limita la altura del carrito para evitar que ocupe toda la pantalla */
+  overflow-y: auto; /* Agrega una barra de desplazamiento si es necesario */
+}
+
+.close-icon {
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: 10px;
+  color: #ff0000; /* Cambia el color si lo deseas */
+}
+
+.close-icon:hover {
+  color: #ff6666; /* Cambia el color al pasar el mouse si lo deseas */
+}

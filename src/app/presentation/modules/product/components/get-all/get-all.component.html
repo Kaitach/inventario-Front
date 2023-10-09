@@ -1,0 +1,150 @@
+<div class="position-fixed top-0 end-0 p-2">
+  <button
+    *ngIf="productsSale.length > 0"
+    class="btn btn-outline-primary"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#cartCollapse"
+    aria-expanded="false"
+    aria-controls="cartCollapse"
+  >
+    <i class="bi bi-cart"></i>
+  </button>
+</div>
+
+<div
+  *ngIf="productsSale.length > 0"
+  class="cart-container collapse mt-2 me-2"
+  id="cartCollapse"
+  id="cartCollapse"
+>
+  <div class="d-flex justify-content-end">
+    <span class="close-icon" (click)="closeCart()">✕</span>
+    <!-- Agregar "x" para cerrar el carrito -->
+  </div>
+  <div *ngFor="let item of productsSale" class="card card-body mb-2">
+    <div class="row">
+      <div class="col-md-8 input-group">
+        <p>Nombre: {{ item.name }}</p>
+        <p class="ms-4">Cantidad: {{ item.quantity }}</p>
+        <span class="close-icon ms-4" (click)="deleteItem(item.id)">✕</span>
+        <!-- Reemplazar el botón de eliminar con "x" -->
+      </div>
+    </div>
+  </div>
+  <div class="mb-2">
+    Compra al por mayor
+    <input type="checkbox" name="sale" id="sale" [(ngModel)]="isChecked" />
+  </div>
+  <button
+    (click)="purchase()"
+    class="btn btn-primary rounded"
+    style="width: 20vw"
+  >
+    <span class="cart-animation" [ngClass]="{ active: carActive }">
+      <i *ngIf="!showCarString" class="bi bi-truck"></i>
+      <span *ngIf="!showCarString"> Finalizar Compra </span>
+      <i *ngIf="showCarCheck" class="bi bi-check2-circle"></i>
+    </span>
+  </button>
+</div>
+<!-- Otras opciones del carrito, como compra al por mayor y finalizar compra -->
+
+<div class="border border-2 border-dark-subtle rounded" id="main">
+  <div class="container">
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <table
+          class="table table-striped table-hover"
+          aria-describedby="tabla de productos"
+        >
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 10px">#</th>
+              <th class="text-center">Nombre</th>
+              <th class="text-center">Precio</th>
+              <th class="text-center">Stock</th>
+              <th class="text-center">Categoría</th>
+              <th class="text-center" style="width: 29vw">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let product of (products | async) || []
+                  | paginate : { itemsPerPage: 6, currentPage: p,  };
+                let i = index
+              "
+            >
+              <td class="text-center">{{ i + 1 }}</td>
+              <td>
+                <a href="#">{{ product.name }}</a>
+              </td>
+              <td class="text-center">
+                {{ product.price | currency : "$ " : "symbol" }}
+              </td>
+              <td class="text-center">{{ product.quantity }}</td>
+              <td class="text-center">
+                <span
+                  class="category"
+                  [ngClass]="mapCategoryToClass(product.category)"
+                >
+                  {{ product.category }}
+                </span>
+              </td>
+              <td>
+                <div class="input-group">
+                  <div class="button-quantity">
+                    <div
+                      class="value-button siz"
+                      id="decrease"
+                      (click)="decrement(i)"
+                      value="Decrease Value"
+                    >
+                      -
+                    </div>
+                    <input
+                      type="number"
+                      [(ngModel)]="numbers[i]"
+                      (input)="validarNumero(product.id)"
+                      id="number"
+                    />
+                    <div
+                      class="value-button siz"
+                      id="increase"
+                      (click)="increment(i)"
+                      value="Increase Value"
+                    >
+                      +
+                    </div>
+                  </div>
+
+                  <button
+                    (click)="addToCart(product.id, i)"
+                    class="btn btn-primary rounded"
+                    style="width: 15vw"
+                  >
+                    <span
+                      class="cart-animation"
+                      [ngClass]="{ active: cartActive[i] }"
+                    >
+                      <i *ngIf="!showString[i]" class="bi bi-cart"></i>
+                      <span *ngIf="!showString[i]"> Añadir al carrito </span>
+                      <i *ngIf="showCheck[i]" class="bi bi-cart-check-fill"></i>
+                    </span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls
+          (pageChange)="pageChanged($event)"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          class="my-pagination"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

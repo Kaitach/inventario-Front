@@ -1,7 +1,7 @@
-export interface BranchEntity {
-    branchId: string
-    location: string;
-    name: string;
-    products: [],
-    users: [],
-  }
+export interface IBranchEntity {
+  branchId: string;
+  location: string;
+  name: string;
+  products: [];
+  users: [];
+}

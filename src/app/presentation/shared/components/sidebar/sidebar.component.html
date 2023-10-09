@@ -1,0 +1,176 @@
+<div class="wrapper">
+  <!-- Barra lateral -->
+  <nav id="sidebar" [ngClass]="{ active: expanded }">
+    <div class="sidebar-header d-flex flex-column align-items-center">
+      <h2 class="text-white mt-4">
+        <i class="bi bi-wrench-adjustable-circle" *ngIf="expanded"></i>
+
+        <span class="ms-1" *ngIf="!expanded">ToolTrax Pro</span>
+      </h2>
+      <button
+        (click)="toggleSidebar()"
+        class="btn-circle btn-xl"
+        [ngClass]="{ 'btn-action': expanded, 'btn-no-action': !expanded }"
+      >
+        <i
+          class="bi"
+          [ngClass]="{ 'bi-arrow-right': expanded, 'bi-arrow-left': !expanded }"
+        ></i>
+      </button>
+    </div>
+    <ul class="list-unstyled components">
+      <div class="col-auto px-sm-2 px-0 bg-dark">
+        <div
+          class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100"
+        >
+          <a
+            href="/"
+            class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+          >
+          </a>
+          <ul
+            class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+            id="menu"
+          >
+            <li class="nav-item">
+              <a href="#" class="nav-link align-middle px-0">
+                <i class="fs-4 bi-house"></i>
+                <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                  >Inicio</span
+                >
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="#submenuproducts"
+                data-bs-toggle="collapse"
+                class="nav-link px-0 align-middle border-top border-light rounded-0"
+              >
+                <i class="fs-4 bi bi-nut"></i>
+                <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                  >Productos</span
+                >
+              </a>
+              <ul
+                class="collapse nav flex-column ms-1"
+                id="submenuproducts"
+                data-bs-parent="#menu"
+              >
+                <li class="w-100">
+                  <a href="#" class="nav-link px-0">
+                    <i class="fs-6 bi bi-plus-circle"></i>
+                    <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                      >Añadir</span
+                    ></a
+                  >
+                </li>
+                <li>
+                  <a href="/products/all" class="nav-link px-0">
+                    <i class="fs-6 bi bi-grid"></i>
+                    <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                      >Ver todos</span
+                    ></a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a
+                href="#"
+                class="nav-link px-0 align-middle border-top border-light rounded-0"
+              >
+                <i class="fs-4 bi bi-receipt"></i>
+                <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                  >Facturas</span
+                ></a
+              >
+            </li>
+
+            <li>
+              <a
+                href="#submenugeneral"
+                data-bs-toggle="collapse"
+                class="nav-link px-0 align-middle border-top border-light rounded-0"
+              >
+                <i class="fs-4 bi bi-gear-wide-connected"></i>
+                <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                  >Opciones</span
+                >
+              </a>
+              <ul
+                class="collapse nav flex-column ms-1"
+                id="submenugeneral"
+                data-bs-parent="#menu"
+              >
+                <li class="w-100">
+                  <a href="#" class="nav-link px-0">
+                    <i class="fs-6 bi bi-person-gear"></i>
+                    <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                      >Configurar</span
+                    ></a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="nav-link px-0">
+                    <i class="fs-6 bi bi-person-add"></i>
+                    <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                      >Añadir usuario</span
+                    ></a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="nav-link px-0">
+                    <i class="fs-6 bi bi-building-add"></i>
+                    <span class="ms-1 d-none d-sm-inline" *ngIf="!expanded"
+                      >Añadir locación</span
+                    ></a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <hr />
+          <div class="dropdown pb-4">
+            <a
+              href="#"
+              class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="https://github.com/mdo.png"
+                alt="hugenerd"
+                width="30"
+                height="30"
+                class="rounded-circle"
+              />
+              <span class="d-none d-sm-inline mx-1">loser</span>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-dark text-small shadow"
+              aria-labelledby="dropdownUser1"
+            >
+              <li><a class="dropdown-item" href="#">New project...</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li><a class="dropdown-item" href="#">Sign out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Agrega más elementos según sea necesario -->
+    </ul>
+  </nav>
+  <!-- Contenido principal -->
+  <div id="content">
+    <!-- ... Resto de tu contenido principal ... -->
+    <router-outlet></router-outlet>
+    <notifier-container></notifier-container>
+  </div>
+</div>

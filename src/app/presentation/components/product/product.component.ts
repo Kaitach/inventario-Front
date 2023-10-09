@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IBranchModel, IProductModel } from '@domain/models';
 import { BranchRepository, ProductRepository } from '@domain/repository';
 import { NotifierService } from 'angular-notifier';
-import { BranchUseCaseProviders, productUseCaseProviders } from 'data/factory';
-import { IProductEntity, SocketService } from 'data/repository';
+import { BranchUseCaseProviders, ProductUseCaseProviders } from 'data/factory';
+import { IProductEntity } from 'data/repository';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +17,6 @@ export class ProductComponent implements OnInit {
     private readonly productRepository: ProductRepository<IProductModel>,
     private readonly branchRepository: BranchRepository,
     private formBuilder: FormBuilder,
-    private socketService: SocketService,
     private readonly notifier: NotifierService
   ) {
     this.notifier = notifier;
@@ -52,7 +51,7 @@ export class ProductComponent implements OnInit {
   selectedBranchId!: string;
   productForm: FormGroup;
   registerForm: FormGroup;
-  factory = productUseCaseProviders;
+  factory = ProductUseCaseProviders;
   factoryBranch = BranchUseCaseProviders;
   Modal = true;
   products: IProductEntity[] = [];

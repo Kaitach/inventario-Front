@@ -23,7 +23,8 @@
     "paths": {
       "@domain/*": ["./src/app/domain/*"],
       "data/*": ["./src/app/data/*"],
-      "@presentation/*": ["./src/app/presentation/*"]
+      "@presentation/*": ["./src/app/presentation/*"],
+      "@shared/*": ["./src/app/presentation/shared/*"]
     }
   },
   "angularCompilerOptions": {

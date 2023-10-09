@@ -7,7 +7,7 @@ import {
 } from '@domain/models';
 import { BranchRepository, ProductRepository } from '@domain/repository';
 import { SaleRepository } from '@domain/repository/sales.repository';
-import { InventorySocket } from '@presentation/services/inventory.service';
+import { InventorySocket } from '@presentation/shared/services/inventory.service';
 import { NotifierService } from 'angular-notifier';
 import { BranchUseCaseProviders, SaleUseCaseProviders } from 'data/factory';
 
@@ -28,6 +28,7 @@ export class BranchComponent implements OnInit {
 
   numbers: number[] = [];
   numbersStock: number[] = [];
+  isChecked: boolean = false;
 
   constructor(
     private readonly socket: InventorySocket,
@@ -177,7 +178,7 @@ export class BranchComponent implements OnInit {
           products: this.productsSale,
           branchId: this.selectedBranchId,
         },
-        this.selectedBranchId
+        this.isChecked ? 'seller-sale' : 'customer-sale'
       )
       .subscribe({
         complete: () => {

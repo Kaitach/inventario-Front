@@ -3,14 +3,11 @@ import { Injectable } from '@angular/core';
 import { IUserModel, IUserRegister } from '@domain/models';
 import { UserRepository } from '@domain/repository';
 import { Observable } from 'rxjs';
-import { UserImplementationRepositoryMapper } from './mappers';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserImplementationRepository extends UserRepository {
-  userMapper = new UserImplementationRepositoryMapper();
-
   constructor(private http: HttpClient) {
     super();
   }
