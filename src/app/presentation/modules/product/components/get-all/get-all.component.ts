@@ -16,7 +16,7 @@ import { SaleUseCaseProviders } from 'data/factory';
   styleUrls: ['./get-all.component.css'],
 })
 export class GetAllProductsComponent implements OnInit {
-  branchId = '23bfbf1b-8125-4ad4-a22f-1871adf57310';
+  branchId: string = '';
   products = this.socket.products;
   p: number = 1;
   numbers: number[] = [];
@@ -43,6 +43,7 @@ export class GetAllProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.branchId = localStorage.getItem('branchId') || '';
     this.socket.joinInventory(this.branchId);
     this.productRepository.getAllProduct(this.branchId).subscribe((data) => {
       this.socket.setProducts(data);
