@@ -7,14 +7,14 @@ interface IWindowEnvironment {
 
 declare global {
   interface Window {
-    environment: IWindowEnvironment;
+    _env: IWindowEnvironment;
   }
 }
 
 export const environment = {
-  HOST_3000: window.environment.HOST_3000,
-  HOST_3001: window.environment.HOST_3001,
-  HOST_3002: window.environment.HOST_3002,
-  HOST_81: window.environment.HOST_81,
+  HOST_3000: window._env.HOST_3000,
+  HOST_3001: window._env.HOST_3001,
+  HOST_3002: window._env.HOST_3002,
+  HOST_81: window._env.HOST_81,
   production: false,
 };
