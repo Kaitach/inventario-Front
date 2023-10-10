@@ -1,1 +1,49 @@
-<p>individual works!</p>
+<div class="container" *ngIf="product">
+  <div class="card">
+    <div class="border">
+      <i class="fa fa-heart"></i>
+      <img src="https://i.imgur.com/VY0R9aV.jpg" />
+    </div>
+    <div class="central-div">
+      <h3>{{ product.name }}</h3>
+      <div class="price">
+        <p class="h3 bold">{{ product.price | currency : "$ " : "symbol" }}</p>
+      </div>
+    </div>
+    <div class="central-div">
+      <span class="category">
+        <h4>{{ product.category }}</h4>
+      </span>
+    </div>
+    <div class="central-div">
+      <h5>{{ product.description }}</h5>
+    </div>
+
+    <div class="quantity">
+      <h5>{{ product.quantity }}</h5>
+    </div>
+    <div class="form-outline input-number">
+      <input
+        type="number"
+        id="typeNumber"
+        [(ngModel)]="numbersStock"
+        class="form-control"
+        Form
+      />
+    </div>
+    <div class="buttons">
+      <button
+        class="quantity-button"
+        (click)="addStock()"
+        [ngClass]="{ quantityClicked: quantityClicked }"
+      >
+        <span class="add-to-quantity">Finalizar compra</span>
+        <span class="added-quantity fs-4">
+          <i class="bi-check2-circle blue"></i>
+        </span>
+        <i class="fs-4 bi bi-basket3"></i>
+        <i class="fs-6 bi bi-square-fill blue"></i>
+      </button>
+    </div>
+  </div>
+</div>

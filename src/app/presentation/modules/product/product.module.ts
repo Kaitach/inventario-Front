@@ -7,14 +7,14 @@ import {
   GetAllProductsComponent,
   RegisterProductComponent,
 } from './components';
-import { IndividualComponent } from './components/individual/individual.component';
+import { IndividualProductComponent } from './components/individual/individual.component';
 import { ProductComponent } from './pages/product/product.component';
 import { ProductRoutingModule } from './product-routing.module';
 
 @NgModule({
   declarations: [
-    IndividualComponent,
     ProductComponent,
+    IndividualProductComponent,
     GetAllProductsComponent,
     RegisterProductComponent,
   ],

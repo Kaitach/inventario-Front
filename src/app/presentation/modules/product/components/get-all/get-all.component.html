@@ -150,3 +150,47 @@
     </div>
   </div>
 </div>
+
+<div class="container-fluid d-flex justify-content-center">
+  <div class="row mt-5">
+    <div
+      class="col-lg-3 col-md-4 col-sm-6 my-1 my-1 d-flex justify-content-center"
+      *ngFor="let product of products | async"
+    >
+      <div class="card">
+        <div class="product-image">
+          <div class="product-name-overlay">
+            <h4>{{ product.name }}</h4>
+          </div>
+          <img
+            [src]="
+              '../../../../../../assets/img/products-categories/' +
+              product.category +
+              '.png'
+            "
+            class="card-img-top"
+            width="100%"
+          />
+        </div>
+        <div class="card-body pt-0 px-0">
+          <div class="d-flex flex-row justify-content-between mb-0 px-3">
+            <small class="text-muted mt-1">PRECIO</small>
+            <h6>&dollar;{{ product.price }}</h6>
+          </div>
+          <hr class="mt-2 mx-3" />
+          <div class="d-flex flex-row px-3 pb-4">
+            <div class="d-flex flex-column">
+              <span class="text-muted">Descripción</span>
+              <small class="text-muted">{{ product.description }}</small>
+            </div>
+          </div>
+          <div class="mx-3 mt-3 mb-2">
+            <button type="button" class="btn btn-danger btn-block">
+              <small>ADD Cart</small>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { ProductRepository } from '@domain/repository';
 import {
   CreateProductUseCase,
   GetAllProductUseCase,
+  GetProductUseCase,
   RegisterQuantityUseCase,
 } from '@domain/use-case';
 
@@ -16,6 +17,10 @@ export const GetAllProductUseCaseFactory = (
 export const RegisterQuantityUseCaseFactory = (
   productRepository: ProductRepository<IProductModel>
 ) => new RegisterQuantityUseCase(productRepository);
+
+export const GetProductUseCaseFactory = (
+  productRepository: ProductRepository<IProductModel>
+) => new GetProductUseCase(productRepository);
 
 export const ProductUseCaseProviders = {
   createProduct: {
@@ -31,6 +36,11 @@ export const ProductUseCaseProviders = {
   getAllProduct: {
     provide: GetAllProductUseCase,
     useFactory: GetAllProductUseCaseFactory,
+    deps: [ProductRepository],
+  },
+  getProduct: {
+    provide: GetProductUseCase,
+    useFactory: GetProductUseCase,
     deps: [ProductRepository],
   },
 };

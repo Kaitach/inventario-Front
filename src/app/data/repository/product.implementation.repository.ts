@@ -44,7 +44,7 @@ export class ProductImplementationRepository extends ProductRepository<IProductM
     );
   }
   getProductById(id: string): Observable<IProductModel> {
-    return this.http.get<IProductModel>(`${this.apiUrlGetAll}${id}`);
+    return this.http.get<IProductModel>(`${this.apiUrlGet}${id}`);
   }
   constructor(private http: HttpClient) {
     super();

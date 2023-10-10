@@ -24,12 +24,17 @@
 
 /* Estilo del contenido principal */
 #content {
-  margin: auto;
+  margin-left: 250px; /* Ancho de la barra lateral cuando está expandida */
+  margin-top: 50px; /* Espacio superior para dejar espacio para el encabezado de la barra lateral */
+  margin-right: 20px; /* Margen derecho opcional */
+  margin-bottom: 20px; /* Margen inferior opcional */
   transition: all 0.3s;
+  z-index: 1; /* Asegúrate de que el contenido esté por debajo de la barra lateral */
+  position: relative; /* Asegúrate de que z-index funcione correctamente */
 }
 
 #sidebar.active ~ #content {
-  margin: auto;
+  margin-left: 70px; /* Ancho de la barra lateral cuando está colapsada */
 }
 
 .btn-circle.btn-xl {
