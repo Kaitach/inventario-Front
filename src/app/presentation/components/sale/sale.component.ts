@@ -30,16 +30,20 @@ export class SaleComponent implements OnInit {
 
     this.selectedBranchId = this.authService.getSelectedBranchId();
     this.sales = this.authService.getSelectedBranchSales()
-    console.log(this.sales)
     this.socketService.listenToEvent(`saleEvent_${this.selectedBranchId}`).subscribe((data) => {
        const sales = JSON.parse(data) as SaleEntity;
+    const existingSale = this.sales.find(sale => sale.id === sales.id && sale.quantity === sales.quantity);
 
+    if (!existingSale) {
       this.sales.push(sales);
-
-    });
+    } 
   }
-
-  
-  
+    )
 }
+  
 
+  
+  
+
+
+}

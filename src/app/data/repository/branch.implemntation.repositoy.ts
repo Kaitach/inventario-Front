@@ -20,12 +20,10 @@ export class BranchImplementationRepository extends BranchRepository {
   }
 
   createBranch(Branch: IBranchRegisterModel): Observable<IBranchModel> {
-    console.log('URL para createBranch:', this.apiUrl); // Agrega este console.log
     return this.http.post<IBranchModel>(`http://${this.apiUrl}register`, Branch)  ;
   }
 
   getAllBranch(): Observable<IBranchModel[]> {
-    console.log('URL para getAllBranch:', this.apiUrlGEt); // Agrega este console.log
     return this.http.get<IBranchModel[]>(`http://${this.apiUrlGEt}`);
   }
 }

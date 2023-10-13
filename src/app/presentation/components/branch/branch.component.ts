@@ -28,7 +28,8 @@ export class BranchComponent {
       country: ''
     }
   };
-
+  showAlert: boolean = false;
+  alertMessage: string = '';
   factory = BranchUseCaseProviders
 
   onSubmit(): void {
@@ -42,6 +43,20 @@ export class BranchComponent {
 
         }  
     this.factory.createBranch.useFactory(this.branchRepository).execute(formData).subscribe()}
+    this.showAutoCloseAlert('Solicitud enviada con exito', 1000)
+
+  }
+
+
+  showAutoCloseAlert(message: string, duration: number, isError = false ): void {
+    this.alertMessage = message;
+    this.showAlert = true;
+    const alertClass = isError ? 'alert-danger' : 'alert-success';
+
+    setTimeout(() => {
+      this.showAlert = false;
+      this.alertMessage = '';
+    }, duration);
   }
 
 }

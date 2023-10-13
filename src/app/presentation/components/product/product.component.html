@@ -48,6 +48,13 @@
 
   <div class="container mt-4">
     <form *ngIf="endpoint !== 'register'" (ngSubmit)="onSubmit()" [formGroup]="productForm">
+      <div class="mb-3">
+        <label for="fileInput" class="form-label custom-file-label">Agregar Stock</label>
+        <input type="file" id="fileInput" class="d-none" #fileInput (change)="onFileChange($event)">
+      </div>
+      
+      
+      
       <h3 class="welcome-title">Productos Disponibles</h3>
       <table class="table table-bordered table-sm">
         <thead>

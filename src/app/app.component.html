@@ -1,9 +1,12 @@
 <div class="centered-form">
-   <div class="container mt-4">
-  <button routerLink="/user" class="custom-button" *ngIf="selectedRole === 'Admin' || selectedRole === 'SuperAdmin'">User</button>
-  <button routerLink="/product" class="custom-button" *ngIf="selectedRole === 'Admin' || selectedRole === 'SuperAdmin'">Product</button>
-  <button routerLink="/sale" class="custom-button" *ngIf="selectedRole === 'Admin' || selectedRole === 'SuperAdmin'">Sale</button>
-  <button routerLink="/branch" class="custom-button" *ngIf="selectedRole === 'SuperAdmin'">Branch</button>
-</div>
+  <div class="container mt-4">
+    <div class="button-container">
+      <button routerLink="/user" class="custom-button" *ngIf="selectedRole === 'Admin' || selectedRole === 'SuperAdmin'">User</button>
+      <button routerLink="/product" class="custom-button" *ngIf="selectedRole === 'Admin' || selectedRole === 'SuperAdmin' || selectedRole === 'Seller'" >Product</button>
+      <button routerLink="/sale" class="custom-button" *ngIf="selectedRole === 'Admin' || selectedRole === 'SuperAdmin'">Sale</button>
+      <button routerLink="/branch" class="custom-button" *ngIf="selectedRole === 'SuperAdmin'">Branch</button>
+    </div>
+  </div>
+
 <router-outlet></router-outlet>
 </div>

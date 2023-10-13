@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BranchUseCaseProviders } from 'src/app/data/factory/branchFactory';
 import { AuthService } from 'src/app/data/repository/auth/auth.service';
 import { BranchRepository, IBranchModel } from 'src/app/domain';
@@ -19,13 +20,14 @@ export class AuthComponent implements OnInit {
   selectedBranchUsers: any[] = [];
   selectedBranchSales: any[] = [];
   factoryBranch = BranchUseCaseProviders;
-
+  showAlert: boolean = false;
+  alertMessage: string = '';
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private userRepository: UserRepository,
     private  branchRepository: BranchRepository,
-
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,10 +36,7 @@ export class AuthComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
-    console.log(
-      '%cUsuarios predeterminados: SuperAdmin-SuperAdmin   Admin-Admin   seller-seller',
-      'color: white; background-color: #007BFF; padding: 5px; border-radius: 5px; font-weight: bold;'
-    );
+ 
   }
 
   onSubmit(): void {
@@ -56,11 +55,13 @@ export class AuthComponent implements OnInit {
           this.authService.setToken(data.access_token);
           const  token =   this.authService.getToken() as string
           this.authService.login(token)
-          console.log(`Successfully logged in with ${email}`);
           this.onBranchChange()
-        },
+          this.showAutoCloseAlert(`Loggueado correctamente  ${email}`, 1500);
+
+          this.router.navigate(['/product'])},
+        
         (error) => {
-          console.error('Error during login:', error);
+          this.showAutoCloseAlert('El correo y la contraseña no coinciden.', 1500, true);
         }
       );
     }
@@ -73,7 +74,7 @@ export class AuthComponent implements OnInit {
       .subscribe(
         (data) => {
           this.branchsList = data;
-          console.log(data)
+          this.authService.setSelectedBranchList(this.branchsList) 
         },
         (error) => {
           console.error('Error al obtener la lista de productos:', error);
@@ -83,6 +84,7 @@ export class AuthComponent implements OnInit {
 
   onBranchChange(): void {
     const branchId = this.authService.getSelectedBranchId();
+    
     const selectedBranch = this.branchsList.find(
       (branch) => branch.branchId === branchId
     );
@@ -92,7 +94,20 @@ export class AuthComponent implements OnInit {
       this.selectedBranchUsers = selectedBranch.users;
       this.selectedBranchSales = selectedBranch.sales;
   
-      this.authService.setBranchInfo(branchId, this.selectedBranchProducts);
+      this.authService.setBranchInfo(branchId, this.selectedBranchProducts, this.selectedBranchSales, this.selectedBranchUsers);
     }
   }
+
+
+  showAutoCloseAlert(message: string, duration: number, isError = false ): void {
+    this.alertMessage = message;
+    this.showAlert = true;
+    const alertClass = isError ? 'alert-danger' : 'alert-success';
+
+    setTimeout(() => {
+      this.showAlert = false;
+      this.alertMessage = '';
+    }, duration);
+  }
+
 }

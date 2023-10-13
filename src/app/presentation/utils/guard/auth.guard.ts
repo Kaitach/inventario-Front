@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
       const decodedToken: any = jwt_decode(token);
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
-        console.log("se vencio vieja")
         this.router.navigate(['/login']);
         return false;
       }

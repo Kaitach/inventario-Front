@@ -1,4 +1,7 @@
 <div class="centered-form">
+  <div *ngIf="showAlert" class="alert alert-success custom-button">
+    {{ alertMessage }}
+  </div>
   <h1 class="welcome-title">Bienvenido al Control de Stock</h1>
   <div class="custom-form">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">

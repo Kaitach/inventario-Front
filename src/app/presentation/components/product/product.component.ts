@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { BranchUseCaseProviders } from 'src/app/data/factory/branchFactory';
 import { producthUseCaseProviders } from 'src/app/data/factory/productFactory';
@@ -13,6 +14,7 @@ import {
 } from 'src/app/domain';
 import { productInventoryModel } from 'src/app/domain/models/productInventory.model';
 import { IProductRegisterModel } from 'src/app/domain/models/productRegisterModel';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-product',
@@ -26,6 +28,7 @@ export class ProductComponent implements OnInit {
     private formBuilder: FormBuilder,
     private socketService: SocketService,
     private readonly authService: AuthService
+    
   ) {
     this.productForm = this.formBuilder.group({
       productId: [''],
@@ -41,6 +44,8 @@ export class ProductComponent implements OnInit {
       branchId: [''],
     });
   }
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
   selectedBranchId!: string;
   productForm: FormGroup;
   registerForm: FormGroup;
@@ -48,7 +53,7 @@ export class ProductComponent implements OnInit {
   factoryBranch = BranchUseCaseProviders;
   Modal = true;
   products: IproductEntity[] = [];
-  endpoint = '';
+  endpoint = 'purchase';
   productNames: string[] = [];
   branchsNames: string[] = [];
   branchId!: string;
@@ -62,7 +67,6 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.selectedBranchId = this.authService.getSelectedBranchId();
     this.products = this.authService.getSelectedBranchProducts();
-    console.log(this.products)
     this.socketService.listenToEvent(`productRegister_${this.selectedBranchId}` || 'productReSeller').subscribe((data) => {
       const newProduct = JSON.parse(data) as IproductEntity;
       const existingProductIndex = this.products.findIndex(
@@ -80,7 +84,6 @@ export class ProductComponent implements OnInit {
 
   onSubmit(): void {
     this.sendToEndpoint();
-    console.log(this.endpoint)
     this.Modal = !this.Modal;
     this.registerForm.reset();
   }
@@ -128,7 +131,7 @@ export class ProductComponent implements OnInit {
     }
   
     let factoryToUse: any;
-  
+    
     if (this.endpoint === 'customer-sale' || this.endpoint === 'seller-sale') {
       let canProceed = true;
   
@@ -153,7 +156,7 @@ export class ProductComponent implements OnInit {
     } else if (this.endpoint === 'purchase') {
       factoryToUse = this.factory.registerQuantity;
     } 
-
+    console.log(this.selectedProductsList)
     factoryToUse
       .useFactory(this.productRepository)
       .execute(this.selectedProductsList as unknown as productModel, `${this.selectedBranchId}` )
@@ -181,4 +184,65 @@ export class ProductComponent implements OnInit {
       this.alertMessage = '';
     }, duration);
   }
+
+
+  onFileChange(event: any): void {
+    if (!this.selectedBranchId) return;
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        const data = e.target.result;
+        console.log(data)
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const jsonData: any = XLSX.utils.sheet_to_json(
+          workbook.Sheets[firstSheetName]
+        );
+
+        if (!jsonData[0].product || !jsonData[0].quantity) {
+          throw new Error('XLSX Format Invalid, require product and quantity');
+
+        }
+
+        const realData = jsonData.map((data: any) => {
+          const dbProduct = this.products?.find(
+            (product) => product.name === data.product
+          );
+          return {
+            id: dbProduct?.productId,
+            quantity: data.quantity,
+            name: dbProduct?.name,
+            price: dbProduct?.price,
+          };
+        });
+
+        const newquantitys = realData.map((jsonStock: any) => {
+          const newquantity = {
+             productId: jsonStock.id,
+             quantity: jsonStock.quantity,      
+             name:    jsonStock.name,
+             price:   jsonStock.price,
+           
+          };
+          console.log(newquantity)
+          this.selectedProductsList.push(newquantity)
+          return newquantity;
+        });
+        console.log(newquantitys)
+        
+       
+      
+      
+      
+          
+          }
+        
+          
+        
+      ;
+      reader.readAsArrayBuffer(file);
+    }
+}
 }

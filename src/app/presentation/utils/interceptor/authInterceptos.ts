@@ -18,10 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     
     const token = this.authService.getToken();
-    console.log(token)
     if (token) {
-       console.log(token)
-       console.log(request)
+ 
 
       request = request.clone({
         setHeaders: {
@@ -29,7 +27,6 @@ export class AuthInterceptor implements HttpInterceptor {
         },
       });
     }
-    console.log(request)
 
     return next.handle(request);
   }

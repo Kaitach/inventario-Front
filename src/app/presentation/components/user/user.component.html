@@ -2,7 +2,9 @@
   <div class="container mt-4" *ngIf="authService.getIsLoggedIn()">
     <h2 class="welcome-title">Bienvenido, {{ authService.getName() }}</h2>
   </div>
-
+  <div *ngIf="showAlert" class="alert alert-success custom-button">
+    {{ alertMessage }}
+  </div>
   <div class="container mt-4">
     <div class="row">
       <!-- Columna para el formulario -->
@@ -12,27 +14,56 @@
             <div class="mb-3">
               <label for="name" class="form-label">Nombre:</label>
               <input type="text" id="name" formControlName="firstName" class="form-control">
+              <div *ngIf="userDataForm.get('firstName')?.hasError('required')" class="text-danger">
+                Nombre es requerido.
+              </div>
             </div>
             <div class="mb-3">
               <label for="LastName" class="form-label">Apellido:</label>
               <input type="text" id="LastName" formControlName="lastName" class="form-control">
+              <div *ngIf="userDataForm.get('lastName')?.hasError('required')" class="text-danger">
+                Apellido es requerido.
+              </div>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Correo Electrónico:</label>
               <input type="email" id="email" formControlName="email" class="form-control">
+              <div *ngIf="userDataForm.get('email')?.hasError('required')" class="text-danger">
+                Correo Electrónico es requerido.
+              </div>
+              <div *ngIf="userDataForm.get('email')?.hasError('email')" class="text-danger">
+                Correo Electrónico no es válido.
+              </div>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña:</label>
               <input type="password" id="password" formControlName="password" class="form-control">
+              <div *ngIf="userDataForm.get('password')?.hasError('required')" class="text-danger">
+                Contraseña es requerida.
+              </div>
             </div>
             <div class="mb-3">
               <label for="role" class="form-label">Rol:</label>
               <select id="role" formControlName="role" class="form-control">
                 <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
               </select>
+              <div *ngIf="userDataForm.get('role')?.hasError('required')" class="text-danger">
+                Rol es requerido.
+              </div>
+            </div>
+            <div class="mb-3" *ngIf="selectedRole === 'SuperAdmin'">
+              <label for="branchId" class="form-label">Selecciona una Sucursal:</label>
+              <select id="branchId" formControlName="branchId" class="form-control">
+                <option *ngFor="let branch of branchsList" [value]="branch.branchId">
+                  {{ branch.name }}
+                </option>
+              </select>
+              <div *ngIf="userDataForm.get('branchId')?.hasError('required')" class="text-danger">
+                Sucursal es requerida.
+              </div>
             </div>
             <div class="button-container">
-              <button type="submit" class="custom-button">Registrar Usuario</button>
+              <button type="submit" class="custom-button" [disabled]="!userDataForm.valid">Registrar Usuario</button>
             </div>
           </form>
         </div>

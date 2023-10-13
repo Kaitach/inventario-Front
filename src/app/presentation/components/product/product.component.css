@@ -82,10 +82,41 @@
 
 /* Cambios en la tabla de productos seleccionados */
 .custom-table {
-  background: #f2f2f2; /* Fondo un poco gris */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-right: 20px;
-  color: #555; /* Cambio de color del texto a un gris más claro */
+  background: rgba(37, 36, 36, 0.945);
+  border: 2px solid #ffa260;
+  color: #ffa260;
+  padding: 1em 2em;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s, border-radius 0.3s;
+  border-radius: 0.5em;
+}
+.custom-file-label {
+  background: rgba(37, 36, 36, 0.945);
+  border: 2px solid #ffa260;
+  color: #ffa260;
+  padding: 1em 2em;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s, border-radius 0.3s;
+  border-radius: 0.5em;
+}
+
+/* Estilo para el botón */
+.btn-primary {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Cambia el estilo del botón al pasar el ratón por encima */
+.btn-primary:hover {
+  background-color: #45a0f7;
 }

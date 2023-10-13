@@ -13,7 +13,7 @@ export class AuthService {
   selectedBranchSales: any[] = [];
   selectedBranchUsers: any[] = [];
   private userData: any = {}; 
-
+  selectedBranchList: any[] = [];
   constructor(private router: Router) {}
 
   login(token: string): void {
@@ -24,9 +24,7 @@ export class AuthService {
 
     this.isLoggedIn = true;
     this.selectedBranchId = this.userData.branchId;
-    console.log(this.selectedBranchId);
-    this.selectedRole = this.userData.role;
-    console.log(this.userData)
+    this.selectedRole = this.userData.role;    
     if (this.selectedRole === 'Admin') {
       this.router.navigate(['/user']);
     } else if (this.selectedRole === 'SuperAdmin') {
@@ -59,10 +57,16 @@ export class AuthService {
     this.selectedBranchProducts = products;
   }
 
+  getSelectedBranchList(): any[] {
+    return this.selectedBranchList;
+  }
+  setSelectedBranchList(branchs: any[]): void {
+    this.selectedBranchList = branchs;
+  }
+
   getSelectedBranchProducts(): any[] {
     return this.selectedBranchProducts;
   }
-
   getSelectedBranchSales(): any[] {
     return this.selectedBranchSales;
   }
@@ -82,8 +86,10 @@ export class AuthService {
   removeToken(): void {
     localStorage.removeItem('token');
   }
-  setBranchInfo(branchId: string, products: any[]): void {
+  setBranchInfo(branchId: string, products: any[],sales: any[], users: any[] ): void {
     this.selectedBranchId = branchId;
     this.selectedBranchProducts = products;
+    this.selectedBranchSales = sales
+    this.selectedBranchUsers = users
   }
 }
