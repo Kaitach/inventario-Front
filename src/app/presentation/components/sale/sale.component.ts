@@ -42,7 +42,22 @@ export class SaleComponent implements OnInit {
 }
   
 
-  
+sortSalesByField(field: string) {
+  switch (field) {
+    case 'type':
+      this.sales.sort((a, b) => a.type.localeCompare(b.type));
+      break;
+    case 'quantity':
+      this.sales.sort((a, b) => a.quantity - b.quantity);
+      break;
+    case 'cost':
+      this.sales.sort((a, b) => a.productPrice - b.productPrice);
+      break;
+    default:
+      this.sales.sort((a, b) => a.type.localeCompare(b.type));
+      break;
+  }
+}
   
 
 

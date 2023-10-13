@@ -5,6 +5,9 @@
 
   <div class="container mt-4 sales-table">
     <h3>Ventas:</h3>
+    <button (click)="sortSalesByField('type')">Ordenar por Tipo</button>
+    <button (click)="sortSalesByField('quantity')">Ordenar por Cantidad</button>
+    <button (click)="sortSalesByField('cost')">Ordenar por Costo Total</button>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -25,5 +28,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
+</div>
 </div>

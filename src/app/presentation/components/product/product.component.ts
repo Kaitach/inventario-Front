@@ -15,6 +15,9 @@ import {
 import { productInventoryModel } from 'src/app/domain/models/productInventory.model';
 import { IProductRegisterModel } from 'src/app/domain/models/productRegisterModel';
 import * as XLSX from 'xlsx';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-product',
@@ -226,23 +229,41 @@ export class ProductComponent implements OnInit {
              price:   jsonStock.price,
            
           };
-          console.log(newquantity)
           this.selectedProductsList.push(newquantity)
           return newquantity;
         });
         console.log(newquantitys)
         
-       
-      
-      
-      
-          
           }
-        
-          
         
       ;
       reader.readAsArrayBuffer(file);
     }
 }
+
+
+exportPDF() {
+  const doc = new jsPDF();
+
+  doc.text('Lista de Productos', 10, 10);
+
+  const columns = ['ID', 'Nombre', 'Descripción', 'Precio', 'Stock', 'Categoria' ];
+  
+  const data = this.products.map((product, index) => [
+    product.productId,
+    product.name,
+    product.description,
+    product.price.toString(),
+    product.quantity,
+    product.category
+  ]);
+
+  autoTable(doc, {
+    head: [columns],
+    body: data,
+  });;
+
+  doc.save('lista_productos.pdf');
+}
+
 }
