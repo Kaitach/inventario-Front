@@ -9,8 +9,11 @@ import { ProductImplementationRepositoryMapper } from './mappers/product.mapper'
   providedIn: 'root',
 })
 export class ProductImplementationRepository extends ProductRepository<productModel> {
-   apiUrl = 'http://localhost:3000/api/v1/product/';
-   apiUrlGEt = 'http://localhost:3002/api/v1/product/';
+   backendApiUri = window._env.BACKEND_API_URI;
+   backendApiUriPersistence = window._env.PERSISTENCE_API_URI;
+
+   apiUrl = `http://${this.backendApiUri}/api/v1/product/`;
+   apiUrlGEt = `http://${this.backendApiUriPersistence}/api/v1/product/`;
 
   override getAllProduct(): Observable<productModel[]> {
 

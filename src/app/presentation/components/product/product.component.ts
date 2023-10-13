@@ -66,6 +66,7 @@ export class ProductComponent implements OnInit {
     this.socketService.listenToEvent(`productRegister_${this.selectedBranchId}` || 'productReSeller').subscribe((data) => {
       const newProduct = JSON.parse(data) as IproductEntity;
       const existingProductIndex = this.products.findIndex(
+        
         (product) => product.productId === newProduct.productId
       );
     
@@ -78,7 +79,8 @@ export class ProductComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.sendToEndpoint(this.endpoint);
+    this.sendToEndpoint();
+    console.log(this.endpoint)
     this.Modal = !this.Modal;
     this.registerForm.reset();
   }
@@ -95,23 +97,17 @@ export class ProductComponent implements OnInit {
       quantity: 1, 
     });
   }
-  sendToEndpoint(data: string): void {
+  sendToEndpoint(): void {
     if (this.registerForm.valid) {
       const registerFormData = this.registerForm.value as IProductRegisterModel;
       registerFormData.branchId = this.selectedBranchId;
       this.factory.Createproduct.useFactory(this.productRepository)
         .execute(registerFormData)
         .subscribe();
-    }
-    if (this.productForm.valid) {
-      const idAndQuantity = this.productForm.value as productInventoryModel;
-      idAndQuantity.branchId = this.selectedBranchId;
+        this.showAutoCloseAlert('Solicitud enviada con exito', 1000)
 
-      this.factory.registerQuantity
-        .useFactory(this.productRepository)
-        .execute(idAndQuantity, data)
-        .subscribe();
     }
+
   }
 
  
@@ -128,11 +124,27 @@ export class ProductComponent implements OnInit {
   }
   enviarSeleccion() {
     if (this.selectedProductsList.length === 0) {
-      return; 
-    }    
-
-
+      return;
+    }
+  
     let factoryToUse: any;
+  
+    if (this.endpoint === 'customer-sale' || this.endpoint === 'seller-sale') {
+      let canProceed = true;
+  
+      this.selectedProductsList.forEach((product) => {
+        const selectedProduct = this.products.find((p) => p.productId === product.productId);
+        if (selectedProduct && product.quantity > selectedProduct.quantity) {
+          canProceed = false;
+        }
+      });
+  
+      if (!canProceed) {
+        this.showAutoCloseAlert('No puedes realizar la acción porque la cantidad seleccionada supera el stock disponible.', 1000, true);
+        return;
+      }
+    }
+
 
     if (this.endpoint === 'customer-sale') {
       factoryToUse = this.factory.customerSale;
@@ -141,7 +153,6 @@ export class ProductComponent implements OnInit {
     } else if (this.endpoint === 'purchase') {
       factoryToUse = this.factory.registerQuantity;
     } 
-
 
     factoryToUse
       .useFactory(this.productRepository)
@@ -160,9 +171,10 @@ export class ProductComponent implements OnInit {
 
 
 
-  showAutoCloseAlert(message: string, duration: number): void {
+  showAutoCloseAlert(message: string, duration: number, isError = false ): void {
     this.alertMessage = message;
     this.showAlert = true;
+    const alertClass = isError ? 'alert-danger' : 'alert-success';
 
     setTimeout(() => {
       this.showAlert = false;

@@ -3,35 +3,39 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BranchUseCaseProviders } from 'src/app/data/factory/branchFactory';
 import { AuthService } from 'src/app/data/repository/auth/auth.service';
 import { BranchRepository, IBranchModel } from 'src/app/domain';
+import { UserRepository, } from 'src/app/domain';
+import { IUserLogin } from 'src/app/domain/models/userLogin';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
+
 })
 export class AuthComponent implements OnInit {
   loginForm!: FormGroup;
   branchsList: IBranchModel[] = [];
-  factoryBranch = BranchUseCaseProviders;
-  selectedBranchId: string = '';
   selectedBranchProducts: any[] = [];
   selectedBranchUsers: any[] = [];
   selectedBranchSales: any[] = [];
+  factoryBranch = BranchUseCaseProviders;
 
   constructor(
     private formBuilder: FormBuilder,
-    private readonly branchRepository: BranchRepository,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private userRepository: UserRepository,
+    private  branchRepository: BranchRepository,
+
+  ) {}
 
   ngOnInit(): void {
-    this.loadBranch()
+    this.loadBranch();
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
     console.log(
-      '%cUsuarios predeterminados: SuperAdmin-SuperAdmin   admin-admin   seller-seller',
+      '%cUsuarios predeterminados: SuperAdmin-SuperAdmin   Admin-Admin   seller-seller',
       'color: white; background-color: #007BFF; padding: 5px; border-radius: 5px; font-weight: bold;'
     );
   }
@@ -41,13 +45,24 @@ export class AuthComponent implements OnInit {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
 
-      if (this.authService.login(email, password)) {
-        this.authService.setSelectedBranchId(this.selectedBranchId);
-        this.authService.setSelectedBranchProducts(this.selectedBranchProducts);
-        this.authService.setSelectedBranchUsers(this.selectedBranchUsers)
-        this.authService.setSelectedBranchSale(this.selectedBranchSales)
-        console.log(`Successfully logged in with ${email}`);
-      }
+      const user: IUserLogin = {
+        email: email,
+        password: password,
+      };
+
+      this.userRepository.login(user).subscribe(
+        (data) => {
+      
+          this.authService.setToken(data.access_token);
+          const  token =   this.authService.getToken() as string
+          this.authService.login(token)
+          console.log(`Successfully logged in with ${email}`);
+          this.onBranchChange()
+        },
+        (error) => {
+          console.error('Error during login:', error);
+        }
+      );
     }
   }
 
@@ -58,7 +73,7 @@ export class AuthComponent implements OnInit {
       .subscribe(
         (data) => {
           this.branchsList = data;
-          this.onBranchChange();
+          console.log(data)
         },
         (error) => {
           console.error('Error al obtener la lista de productos:', error);
@@ -67,15 +82,17 @@ export class AuthComponent implements OnInit {
   }
 
   onBranchChange(): void {
+    const branchId = this.authService.getSelectedBranchId();
     const selectedBranch = this.branchsList.find(
-      (branch) => branch.branchId === this.selectedBranchId
+      (branch) => branch.branchId === branchId
     );
-
+  
     if (selectedBranch) {
       this.selectedBranchProducts = selectedBranch.products;
       this.selectedBranchUsers = selectedBranch.users;
-      this.selectedBranchSales =selectedBranch.sales
-
+      this.selectedBranchSales = selectedBranch.sales;
+  
+      this.authService.setBranchInfo(branchId, this.selectedBranchProducts);
     }
   }
 }

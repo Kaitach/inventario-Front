@@ -1,0 +1,45 @@
+/* Estilos para el contenedor de bienvenida */
+.welcome-container {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffa260;
+    margin-bottom: 1em;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    color: #333;
+    text-align: center;
+
+}
+
+/* Estilos para la tabla de ventas */
+.sales-table {
+    background: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    color: #333;
+}
+
+/* Cambios en el encabezado de la tabla de ventas */
+.sales-table thead th {
+    background: #333;
+    color: #fff;
+}
+
+/* Cambios en los bordes de la tabla de ventas */
+.sales-table td, .sales-table th {
+    border: 2px solid #fff;
+}
+.centered-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: hsl(227, 10%, 10%);
+  }
+  

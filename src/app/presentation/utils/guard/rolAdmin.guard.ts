@@ -11,7 +11,7 @@ export class RoleGuard implements CanActivate {
   canActivate(): boolean {
     const userRole = this.authService.getSelectedRole();
 
-    if (userRole === 'admin' || userRole === 'SuperAdmin') {
+    if (userRole === 'Admin' || userRole === 'SuperAdmin') {
       return true; 
     } else {
       this.router.navigate(['/access-denied']);

@@ -8,9 +8,9 @@ import { io } from 'socket.io-client';
 })
 export class SocketService {
   socket: any;
-
+   soketIO = window._env.SOCKETIO_API_URI;
   constructor() {
-    this.socket = io('ws://localhost:81');
+    this.socket = io(`ws://${this.soketIO}`);
   }
   listenToEvent(eventName: string): Observable<any> {
     return new Observable((observer) => {
@@ -20,9 +20,7 @@ export class SocketService {
     });
   }
 
-  // Emitir un evento de confirmación al servidor
   emitConfirmationEvent(data: any) {
-    // Puedes personalizar el nombre del evento de confirmación
     this.socket.emit('confirmacion_evento', data);
   }
 }

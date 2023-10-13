@@ -1,64 +1,58 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private isLoggedIn: boolean = false;
   private selectedRole!: string;
-  selectedBranchId: string = '';
+  private selectedBranchId!: string;
   selectedBranchProducts: any[] = [];
-  selectedBranchSales: any[] = []
+  selectedBranchSales: any[] = [];
   selectedBranchUsers: any[] = [];
-  constructor(private router: Router) { }
+  private userData: any = {}; 
 
-  login(email: string, password: string): boolean {
-    if (email === 'admin' && password === 'admin') {
-      this.isLoggedIn = true;
-      this.selectedRole =email
+  constructor(private router: Router) {}
 
+  login(token: string): void {
+    const decodedToken = jwt_decode(token);
+    this.userData = decodedToken;
+
+    this.setToken(token);
+
+    this.isLoggedIn = true;
+    this.selectedBranchId = this.userData.branchId;
+    console.log(this.selectedBranchId);
+    this.selectedRole = this.userData.role;
+    console.log(this.userData)
+    if (this.selectedRole === 'Admin') {
       this.router.navigate(['/user']);
-      return true;
+    } else if (this.selectedRole === 'SuperAdmin') {
+      this.router.navigate(['/user']);
+    } else if (this.selectedRole === 'seller') {
+      this.router.navigate(['/product']);
     }
-    if (email === 'SuperAdmin' && password === 'SuperAdmin') {
-        this.selectedRole =email
-        this.isLoggedIn = true;
-        this.router.navigate(['/user']);
-        return true;
-      }
-      if (email === 'seller' && password === 'seller') {
-        this.isLoggedIn = true;
-        this.selectedRole =email
-
-        this.router.navigate(['/product']);
-        return true;
-      }
-    return false;
   }
 
   logout(): void {
     this.isLoggedIn = false;
+    this.removeToken();
+  }
+  getName(): string {
+    return this.userData.name;
   }
   getSelectedRole(): string {
     return this.selectedRole;
   }
 
-  getIsLoggedIn(): boolean {
-    return this.isLoggedIn;
-  }
-  setSelectedBranchId(branchId: string): void {
-    this.selectedBranchId = branchId;
-  }
-  setSelectedBranchUsers(users: any[]):  void {
-    this.selectedBranchUsers = users;
-  }
-  setSelectedBranchSale(sales: any[]):  void {
-    this.selectedBranchSales = sales;
-  }
   getSelectedBranchId(): string {
     return this.selectedBranchId;
+  }
+
+  getIsLoggedIn(): boolean {
+    return this.isLoggedIn;
   }
 
   setSelectedBranchProducts(products: any[]): void {
@@ -68,11 +62,28 @@ export class AuthService {
   getSelectedBranchProducts(): any[] {
     return this.selectedBranchProducts;
   }
+
   getSelectedBranchSales(): any[] {
     return this.selectedBranchSales;
   }
 
   getSelectedBranchUsers(): any[] {
     return this.selectedBranchUsers;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  removeToken(): void {
+    localStorage.removeItem('token');
+  }
+  setBranchInfo(branchId: string, products: any[]): void {
+    this.selectedBranchId = branchId;
+    this.selectedBranchProducts = products;
   }
 }

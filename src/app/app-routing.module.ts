@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'branch', component: BranchComponent, canActivate: [AuthGuard,RoleSuperGuard] },
   { path: 'login', component: AuthComponent },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full'   } ,
 ];
 
 @NgModule({

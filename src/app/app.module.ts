@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,6 +13,8 @@ import { AuthComponent } from './presentation/components/auth/auth.component';
 import { SocketService } from './data/repository/webSoket/socketService';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SaleComponent } from './presentation/components/sale/sale.component';
+import { HttpInterceptorService } from './presentation/utils/interceptor/httpsInterceptor';
+import { AuthInterceptor } from './presentation/utils/interceptor/authInterceptos';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,18 @@ import { SaleComponent } from './presentation/components/sale/sale.component';
     ReactiveFormsModule,
     NgxPaginationModule
   ],
-  providers: [SocketService],
+  providers: [SocketService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true,
+  },
+
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  },
+],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

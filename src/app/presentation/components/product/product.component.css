@@ -1,3 +1,91 @@
-.superHidden {
-    display: none !important;
-  }
+.centered-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: hsl(227, 10%, 10%);
+}
+
+.welcome-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffa260;
+  margin-bottom: 1em;
+}
+
+.custom-form {
+  background: rgba(255, 255, 255, 0.5); /* Ajusté la opacidad del fondo */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  color: #333; /* Cambié el color del texto a un gris oscuro */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.custom-button {
+  background: rgba(37, 36, 36, 0.945);
+  border: 2px solid #ffa260;
+  color: #ffa260;
+  padding: 1em 2em;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s, border-radius 0.3s;
+  border-radius: 0.5em;
+}
+
+.custom-button:hover,
+.custom-button:focus {
+  transform: translateY(-0.25em);
+  box-shadow: 0 0 0 0.3em rgba(255, 213, 96, 0.925);
+  border-radius: 1em;
+}
+
+.custom-button:active {
+  transform: none;
+  border-radius: 0.5em;
+}
+
+.user-list {
+  background: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-right: 20px;
+}
+
+.left-column {
+  flex: 1;
+  padding: 20px;
+}
+
+.right-column {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Botón de Cancelar en rojo */
+.custom-button-secondary {
+  background: #ff3333;
+  border: 2px solid #ff3333;
+  color: #fff;
+}
+
+/* Cambios en la tabla de productos seleccionados */
+.custom-table {
+  background: #f2f2f2; /* Fondo un poco gris */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-right: 20px;
+  color: #555; /* Cambio de color del texto a un gris más claro */
+}
