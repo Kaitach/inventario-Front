@@ -1,27 +1,8 @@
-# InventoryFront
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![pdf](https://github.com/Kaitach/inventario-Front/assets/104739161/2b3f2bbd-100f-4fd9-89c8-8772f463b84e)
+![user](https://github.com/Kaitach/inventario-Front/assets/104739161/ea829394-29da-45dc-8782-b18f678d0120)
+![product](https://github.com/Kaitach/inventario-Front/assets/104739161/037fe9e6-971e-40cc-bf89-4908300699ea)
+![register product](https://github.com/Kaitach/inventario-Front/assets/104739161/9044cebb-67fa-42d7-a1b1-93de14befd89)
+![agreagndo exel](https://github.com/Kaitach/inventario-Front/assets/104739161/f6fcaed8-dbd6-4d82-b00b-05195d1c842c)
+![branch](https://github.com/Kaitach/inventario-Front/assets/104739161/20426809-0c41-4874-ba26-5d8c345bfa1f)
+![sale](https://github.com/Kaitach/inventario-Front/assets/104739161/9f842785-b0e1-4667-b9e9-ab6b53ed45ec)
+![login](https://github.com/Kaitach/inventario-Front/assets/104739161/0ec9a094-d4b7-4fa0-8fbc-a432fd99f139)
