@@ -1,4 +1,4 @@
-<div class="centered-form" >
+<div class="centered-form">
   <div class="container mt-4 welcome-container" *ngIf="authService.getIsLoggedIn()">
     <h2>Bienvenido, {{ authService.getName() }}</h2>
   </div>
@@ -8,6 +8,10 @@
     <button (click)="sortSalesByField('type')">Ordenar por Tipo</button>
     <button (click)="sortSalesByField('quantity')">Ordenar por Cantidad</button>
     <button (click)="sortSalesByField('cost')">Ordenar por Costo Total</button>
+    
+    <!-- Agregar el botón de exportar a PDF -->
+    <button (click)="exportPDF()">Exportar a PDF</button>
+    
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -16,6 +20,7 @@
           <th>Tipo de factura</th>
           <th>Cantidad</th>
           <th>Costo Total</th>
+          <th>Acciones</th> 
         </tr>
       </thead>
       <tbody>
@@ -25,8 +30,37 @@
           <td>{{ sale.type }}</td>
           <td>{{ sale.quantity }}</td>
           <td>{{ sale.productPrice }}</td>
+          <td>
+            <button (click)="editSale(sale)">Devolver</button>
+          </td>
         </tr>
       </tbody>
     </table>
-</div>
+  </div>
+
+  <div *ngIf="showReturnForm">
+    <form (submit)="saveSaleChanges()">
+    
+      
+      <div *ngIf="selectedSale">
+        <p>Número de Factura: {{ selectedSale.invoiceNumber }}</p>
+
+        
+        <label for="editedProductName">Nombre del Producto:</label>
+        <input type="text" id="editedProductName" [(ngModel)]="selectedSale.productName" name="editedProductName">
+        
+        <p>Tipo de factura: {{ selectedSale.type }}</p>
+
+        
+        <label for="editedQuantity">Cantidad:</label>
+        <input type="text" id="editedQuantity" [(ngModel)]="selectedSale.quantity" name="editedQuantity">
+        
+        <p>Costo Total: {{ selectedSale.productPrice }}</p>
+
+      </div>
+      
+      <button     type="submit">Guardar</button>
+    </form>
+  </div>
+  
 </div>

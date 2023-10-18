@@ -5,6 +5,7 @@ export interface SaleEntity {
   invoiceNumber: string;
   productPrice: string;
   quantity: string;
+  type: string;
 
 
 }

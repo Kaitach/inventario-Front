@@ -42,4 +42,37 @@
     min-height: 100vh;
     background: hsl(227, 10%, 10%);
   }
+  .return-form-container {
+    display: none;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .return-form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .return-form-container label {
+    margin-bottom: 5px;
+  }
+  
+  .return-form-container input {
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .return-form-container button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .return-form-container button:hover {
+    background-color: #0056b3;
+  }
   

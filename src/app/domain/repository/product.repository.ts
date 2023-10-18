@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { productModel } from '../models';
 import { productInventoryModel } from '../models/productInventory.model';
 import { IProductRegisterModel } from '../models/productRegisterModel';
+import { SaleModel } from '../models/sale.model';
 
 export abstract class ProductRepository<T> {
 
@@ -11,4 +12,6 @@ export abstract class ProductRepository<T> {
   abstract registerCustomerSale(data: T, url:string): Observable<T>;
   abstract registerResellerSale(data: T, url:string): Observable<T>;
   abstract getAllProduct(): Observable<T[]>;
+  abstract returnSale(sale: any): Observable<SaleModel>;
+
 }

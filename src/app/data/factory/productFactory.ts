@@ -4,6 +4,7 @@ import { RegisterQuantityUseCase } from 'src/app/domain/usecases/product/addStoc
 import { CreateProductUseCase } from './../../domain/usecases/product/registerProductUseCase';
 import { ProductRepository, productModel } from 'src/app/domain';
 import { getAllProductUseCase } from 'src/app/domain/usecases/product/getAllProductUseCase';
+import { returnSaleUseCase } from 'src/app/domain/usecases/product/returnSale';
 
 export const createProductUseCaseFactory = (
   productRepository: ProductRepository<productModel>
@@ -26,7 +27,10 @@ export const registerReSellerUseCaseFactory = (
 export const registerCustomerSaleUseCaseFactory = (
     productRepository: ProductRepository<productModel>
   ) => new RegisterCustomerSaleUseCase(productRepository);
-  
+
+  export const returnSaleUseCaseUseCaseFactory = (
+    productRepository: ProductRepository<productModel>
+  ) => new returnSaleUseCase(productRepository);
 export const producthUseCaseProviders = {
   Createproduct: {
     provide: CreateProductUseCase,
@@ -51,6 +55,11 @@ export const producthUseCaseProviders = {
   getAllProduct:{
     provide: getAllProductUseCase,
     useFactory: getAllProductUsecaseFactory,
+    dpeps: [ProductRepository]
+  },
+  returnSale:{
+    provide: returnSaleUseCase,
+    useFactory: returnSaleUseCaseUseCaseFactory,
     dpeps: [ProductRepository]
   }
 };

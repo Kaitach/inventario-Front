@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductRepository, productModel } from 'src/app/domain';
 import { ProductImplementationRepositoryMapper } from './mappers/product.mapper';
+import { SaleModel } from 'src/app/domain/models/sale.model';
 
 
 @Injectable({
@@ -20,7 +21,11 @@ export class ProductImplementationRepository extends ProductRepository<productMo
     return this.http.get<productModel[]>(this.apiUrlGEt)
     } 
    
-
+    returnSale(data: SaleModel): Observable<SaleModel> {
+      return this.http.post<SaleModel>(
+        `${this.apiUrl}returnSale`,
+        data
+      )  }
 
   registerProduct(data: productModel): Observable<productModel> {
     return this.http.post<productModel>(
