@@ -52,17 +52,25 @@ export class UserComponent implements OnInit {
     this.socketService.listenToEvent(`new.User_${this.selectedBranchId}`).subscribe((data) => {
        const user = JSON.parse(data) as UserEntity;
        const existingUser  = this.users.find(user => user.id === user.id );
-       if (!existingUser) {
-        this.users.push(user);
-      } 
+       console.log("llega el evento")
 
+        this.users.push(user);
+      
+     
+      });
 
 
  
+      this.socketService.listenToEvent(`branchRegister`).subscribe((data) => {
+        const nerBranch = JSON.parse(data) as IBranchModel;
+       
+        console.log("llega el evento")
+      
+          this.branchsList.push(nerBranch);
+        })
 
-
-    });
-  }
+    }
+  
 
   
   

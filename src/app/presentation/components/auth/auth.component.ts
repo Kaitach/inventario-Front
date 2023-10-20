@@ -22,6 +22,7 @@ export class AuthComponent implements OnInit {
   factoryBranch = BranchUseCaseProviders;
   showAlert: boolean = false;
   alertMessage: string = '';
+  
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
